@@ -4,10 +4,10 @@ const knex = require('../config/config');
 
 // Register new user
 const register = async (req, res) => {
-    const { username, password, email, role = 'costumer' } = req.body;
+    const { username, password, email, phone_number, role = 'costumer' } = req.body;
 
     // Validasi input
-    if (!username || !password || !email) {
+    if (!username || !password || !email || !phone_number ||!role) {
         return res.status(400).json({ message: 'Username, password, and email are required' });
     }
 
@@ -22,9 +22,9 @@ const register = async (req, res) => {
         const hashedPassword = await bcrypt.hash(password, 10);
 
         // Insert user ke database
-        const [userId] = await knex('users').insert({ username, password: hashedPassword, email });
+        const [user_id] = await knex('users').insert({ username, password: hashedPassword, email, phone_number, role });
 
-        res.status(201).json({ success: true, message: 'User registered successfully', userId });
+        res.status(201).json({ success: true, message: 'User registered successfully', user_id });
     } catch (error) {
         res.status(500).json({ success: false, message: 'Error registering user', error });
     }
@@ -53,7 +53,7 @@ const login = async (req, res) => {
         }
 
         // Generate JWT token
-        const token = jwt.sign({ userId: user.user_id, username: user.username, role: user.role }, 'your-secret-key', {
+        const token = jwt.sign({ user_id: user.user_id, username: user.username, role: user.role }, 'your-secret-key', {
             expiresIn: '1h', // Set token expired time
         });
 
