@@ -1,28 +1,63 @@
 const knex = require('../config/config');
 
-//Mengambil semua data showtime
+// Mendapatkan semua showtimes dengan informasi judul film
 const getAllShowtimes = async () => {
-    return await knex('showtimes');
+    return await knex('showtimes')
+        .join('movies', 'showtimes.movie_id', '=', 'movies.movie_id') // Join tabel movies
+        .select(
+            'showtimes.showtime_id',
+            'movies.title as movie_title',
+            'movies.poster_image', // Ambil kolom title dari tabel movies
+            'showtimes.start_time',
+            'showtimes.end_time',
+            'showtimes.price'
+        )
+        .orderBy('showtimes.start_time', 'asc'); // Urutkan berdasarkan waktu mulai
 };
 
-//Mengambil data showtime berdasarkan showtime_id
+// Mendapatkan showtime berdasarkan showtime_id
 const getShowtimeById = async (showtime_id) => {
-    return await knex('showtimes').where({ showtime_id }).first();
+    return await knex('showtimes')
+        .join('movies', 'showtimes.movie_id', '=', 'movies.movie_id')
+        .select(
+            'showtimes.showtime_id',
+            'movies.title as movie_title',
+            'showtimes.start_time',
+            'showtimes.end_time',
+            'showtimes.price'
+        )
+        .where('showtimes.showtime_id', showtime_id)
+        .first(); // Mengembalikan hanya satu hasil
 };
 
-//Membuat showtime baru
+// Menambahkan showtime baru
 const createShowtime = async (movie_id, screen_id, start_time, end_time, price) => {
     return await knex('showtimes').insert({
         movie_id,
         screen_id,
         start_time,
         end_time,
-        price,
+        price
     });
+};
+
+// Get the number of available seats for a showtime
+const getAvailableSeats = async (showtime_id) => {
+    try {
+        const seats = await db('seats')
+            .join('bookings_details', 'seats.seat_id', '=', 'bookings_details.seat_id')
+            .where('bookings_details.showtime_id', showtime_id)
+            .andWhere('seats.is_booked', false)
+            .count('seats.seat_id as available_seats');
+        return seats[0].available_seats;
+    } catch (error) {
+        throw error;
+    }
 };
 
 module.exports = {
     getAllShowtimes,
     getShowtimeById,
     createShowtime,
+    getAvailableSeats
 };

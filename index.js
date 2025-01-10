@@ -13,6 +13,8 @@ const authRoutes = require('./routes/authRoutes');
 const userRoutes = require('./routes/userRoutes');
 const showtimesRoutes = require('./routes/showtimesRoutes');
 const bookingDetailsRoutes = require('./routes/bookingDetailsRoutes');
+const screenRoutes = require('./routes/screenRoutes');
+const path = require('path');
 
 // Akses lintas domain
 // Parsing data JSON
@@ -29,6 +31,8 @@ app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/showtimes', showtimesRoutes);
 app.use('/api/bookings-details', bookingDetailsRoutes);
+app.use('/api/screens', screenRoutes);
+app.use(express.static(path.join(__dirname,'public')));
 
 app.use((err, req, res, next) => {
     console.error(err.stack);
