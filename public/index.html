@@ -100,12 +100,12 @@
         const loginForm = document.getElementById('loginForm');
         const bookingForm = document.getElementById('bookingForm');
     
-        const token = localStorage.getItem('authToken');
-        if (token) {
-          loadShowtimes();
-        } else {
-          alert("Please log in to view the movies.");
-        }
+        //const token = localStorage.getItem('authToken');
+        //if (token) {
+          //loadShowtimes();
+        //} else {
+          //alert("Please log in to view the movies.");
+        //}
     
         loginForm.addEventListener('submit', async (e) => {
           e.preventDefault();
@@ -155,7 +155,7 @@
                     <h5 class="card-title">${showtime.movie_title}</h5>
                     <p class="card-text">Start: ${new Date(showtime.start_time).toLocaleString()}</p>
                     <p class="card-text">End: ${new Date(showtime.end_time).toLocaleString()}</p>
-                    <p class="card-text">Price: $${showtime.price}</p>
+                    <p class="card-text">Price: Rp.${showtime.price}</p>
                   </div>
                 </div>
               </div>

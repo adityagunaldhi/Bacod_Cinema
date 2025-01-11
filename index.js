@@ -1,7 +1,7 @@
-// index.js
 const express = require('express');
 const cors = require('cors');
 const app = express();
+
 
 // Import Routes
 const moviesRoutes = require('./routes/moviesRoutes');

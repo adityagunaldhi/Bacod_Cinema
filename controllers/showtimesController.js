@@ -6,6 +6,8 @@ const getAllShowtimes = async (req, res) => {
         const showtimes = await showtimesModel.getAllShowtimes();
         res.json({ success: true, showtimes });
     } catch (error) {
+        console.log(error);
+        
         res.status(500).json({ success: false, message: 'Error fetching showtimes', error });
     }
 };

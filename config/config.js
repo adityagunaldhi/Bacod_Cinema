@@ -4,11 +4,11 @@ const knex = require('knex');
 const db = knex({
   client: 'mysql',
   connection: {
-    host: 'localhost',
+    host: 'mysql.bacod.id',
     port: 3306,
-    user: 'root',
-    password: '',
-    database: 'ticketing_bioskop',
+    user: 'kelompok1',
+    password: '11223344',
+    database: 'bioskop',
   },
 });
 
