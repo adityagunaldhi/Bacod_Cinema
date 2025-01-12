@@ -3,7 +3,7 @@ const router = express.Router();
 const seatController = require('../controllers/seatController');
 
 // Endpoint mengambil data seats berdasarkan screen_id
-router.get('/:screen_id', seatController.getSeats);
+router.get('/', seatController.getSeats);
 
 // Endpoint menambahkan seats baru
 router.post('/', seatController.addSeat);

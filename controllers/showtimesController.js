@@ -26,8 +26,8 @@ const getShowtimeById = async (req, res) => {
             return res.status(404).json({ success: false, message: 'Showtime not found' });
         }
 
-        const availableSeats = await showtimesModel.getAvailableSeats(showtime_id);
-        showtime.available_seats = availableSeats;
+        // const availableSeats = await showtimesModel.getAvailableSeats(showtime_id);
+        // showtime.available_seats = availableSeats;
 
         res.json({ success: true, showtime });
     } catch (error) {

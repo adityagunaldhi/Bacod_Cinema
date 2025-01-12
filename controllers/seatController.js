@@ -2,9 +2,11 @@ const seatModel = require('../models/seatModel');
 
 //Mengambil semua data kursi berdasarkan screen_id
 const getSeats = async (req, res) => {
-  const { screen_id } = req.params;
+  const query = req.query;
   try {
-    const seats = await seatModel.getAllSeats(screen_id);
+    console.log(query);
+    
+    const seats = await seatModel.getAllSeats(query.screen_id);
     res.json(seats);
   } catch (error) {
     res.status(500).json({ message: 'Error fetching seats', error });
