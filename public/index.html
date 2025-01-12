@@ -149,13 +149,14 @@
           const showtimeCards = data.showtimes.map(showtime => {
             return `
               <div class="col-md-4 mb-4">
-                <div class="card" onclick="openBookingModal(${showtime.showtime_id}, '${showtime.movie_title}', ${showtime.price})">
+                <div class="card">
                   <img src="${showtime.poster_image}" class="card-img-top" alt="${showtime.movie_title}">
-                  <div class="card-body">
+                  <div class="card-body text-center">
                     <h5 class="card-title">${showtime.movie_title}</h5>
                     <p class="card-text">Start: ${new Date(showtime.start_time).toLocaleString()}</p>
                     <p class="card-text">End: ${new Date(showtime.end_time).toLocaleString()}</p>
                     <p class="card-text">Price: Rp.${showtime.price}</p>
+                    <button type="button" class="btn btn-primary" onclick="window.location.href='booking.html?showtime_id=${showtime.showtime_id}'">preview</button>
                   </div>
                 </div>
               </div>

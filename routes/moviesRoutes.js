@@ -28,6 +28,6 @@ router.post('/', checkRole('admin'), moviesController.addMovies);
 router.put('/:id', checkRole('admin'), moviesController.updateMovies);
 
 // Endpoint menghapus movies berdasarkan id ( hanya bisa diakses admin )
-router.delete('/:id', checkRole('admin'), moviesController.deleteMovies);
+router.delete('/:id', moviesController.deleteMovies);
 
 module.exports = router;

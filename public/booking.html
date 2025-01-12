@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking</title>
+     <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="stylebooking.css">
+</head>
+<body>
+    <header class="bg-dark text-white py-3" >
+        <div class="container text-center">
+            <h1> Booking Cinema </h1>
+        </div>
+    </header>
+
+    <div id="menu">  
+        <button> Cinema's Location </button>
+        <button> Booking Seat </button>
+    </div>
+<!-- Bootstrap JS dan Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+
+<!-- Showtime Detail Section -->
+    <section class="container my-5"></section>
+        <h2 class ="text-center mb-4">Showtime Detail</h2>
+        <div class="container mt-5">
+            <div class="row">
+              <div class="col-md-12">
+                <h2 id="movie_title"></h2>
+                <p><strong>Description:</strong> <span id="description"></span></p>
+                <p><strong>Start Time:</strong> <span id="start_time"></span></p>
+                <p><strong>End Time:</strong> <span id="end_time"></span></p>
+                <p><strong>Price:</strong> <span id="price"></span></p>
+                <p><strong>Genre:</strong> <span id="genre"></span></p>
+                <button class="btn btn-success">Book Now</button>
+              </div>
+            </div>
+          </div>
+    </section>
+
+    <div id="konten"> <b>(buat konten)</b> <br> 
+        <iframe width="360" height="120" src="https://youtu.be/YScgQ6JxVqk?si=8ZcqZwCDtBdPzx2m" framborder="0" allowfullscreen></iframe>
+        <p><b>DESKRIPSI</b></p>
+        <p>Dua tahun setelah Ayah Dodo (Vino G Bastian) dihukum mati. 
+            Kartika (Graciella Abigail) tinggal bersama Hendro (Denny Sumargo) dan Linda 
+            (Agla Artalidia). Kartika masih diselundupkan untuk bertemu dengan para napi di sel no.7. 
+            Semua sepakat untuk merahasiakan kenyataan bahwa Ayah Dodo sudah meninggal. 
+            Ketika Hendro sepakat untuk mengadopsi Kartika. Kepala Dinas Sosial menghalangi hal tersebut terjadi.
+            Para napi no.7 dan Hendro memutuskan untuk melawan dengan cara mereka untuk mendapatkan keadilan.</p> 
+        <p>STARRING:                 
+                Indro Warkop,
+                Tora Sudiro,
+                Mawar De Jongh,
+                Bryan Domani,
+                Vino G Bastian
+            
+        </p> 
+        <p>RELEASE DATE:  </p> 
+        <p>CENSOR RATING: 13+ </p> 
+        <p>GENRE: Drama </p> 
+        <p>LANGUAGE: Bahasa Indonesia</p> 
+        <p>SUBTITLE: None</p> 
+        <p>DURATION: 147 Menit</p> 
+    </div>
+
+    <div id="cinema-location">
+        <b>Bagian lokasi</b> <br>
+        <button>CGV</button>
+        <button>XXI</button>
+        <button>Cinepolis</button> 
+    </div>
+
+    <br>
+    <br>
+    <div id="booked-seat"> 
+        <b>Bagian booked seat</b> <br>
+        
+        <button>kursi</button>
+        <button>kursi</button>
+        <button>kursi</button> 
+        <button>kursi</button> <br>
+        <button>kursi</button> 
+        <button>kursi</button> 
+        <button>kursi</button> 
+        <button>kursi</button> <br>
+        <button>kursi</button>  
+        <button>kursi</button> 
+        <button>kursi</button> 
+        <button>kursi</button> <br> 
+
+    </div>
+    <script>
+        async function loadShowtimeDetails() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const showtimeId = urlParams.get('showtime_id');
+
+    if (!showtimeId) {
+        alert('Showtime ID is missing!');
+        return;
+    }
+
+    try {
+        const response = await fetch(`http://localhost:5000/api/showtimes/${showtimeId}`);
+        
+        // Cek status response sebelum mencoba mengakses data JSON
+        if (!response.ok) {
+            throw new Error(`Failed to load showtime data: ${response.statusText}`);
+        }
+
+        const data = await response.json();
+
+        if (data.success) {
+            const showtime = data.showtime;
+            document.getElementById("movie_title").innerText = showtime.movie_title;
+            document.getElementById("start_time").innerText = new Date(showtime.start_time).toLocaleString();
+            document.getElementById("end_time").innerText = new Date(showtime.end_time).toLocaleString();
+            document.getElementById("price").innerText = `Rp ${showtime.price}`;
+            document.getElementById("genre").innerText = showtime.genre;
+        } else {
+            alert("Showtime not found");
+        }
+    } catch (error) {
+        console.error("Error loading showtime details:", error);
+        alert("An error occurred while loading the showtime details. Please try again later.");
+    }
+}
+loadShowtimeDetails();
+
+    </script>
+</body>
+</html>

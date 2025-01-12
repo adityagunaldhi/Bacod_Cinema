@@ -16,15 +16,30 @@ const getAllShowtimes = async (req, res) => {
 const getShowtimeById = async (req, res) => {
     const { showtime_id } = req.params;
     try {
+        if (!showtime_id) {
+            return res.status(400).json({ success: false, message: 'Invalid showtime_id' });
+        }
+
         const showtime = await showtimesModel.getShowtimeById(showtime_id);
+
         if (!showtime) {
             return res.status(404).json({ success: false, message: 'Showtime not found' });
         }
+
+        const availableSeats = await showtimesModel.getAvailableSeats(showtime_id);
+        showtime.available_seats = availableSeats;
+
         res.json({ success: true, showtime });
     } catch (error) {
-        res.status(500).json({ success: false, message: 'Error fetching showtime', error });
+        console.error('Error in getShowtimeById:', error); // Logging error untuk debug
+        res.status(500).json({
+            success: false,
+            message: 'Error fetching showtime',
+            error: error.message || error // Memberikan detail error
+        });
     }
 };
+
 
 //Menambahkan showtime
 const createShowtime = async (req, res) => {
