@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Bacod Cinema</title>
+  <link rel="icon" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTMdOPkIQZ0rrJYOExiYqfN68ErDUSrCnPStw&s" type="image/x-icon">
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
   <link rel="stylesheet" href="style.css">
@@ -50,29 +51,68 @@
   </section>
 
   <!-- Modal Login -->
-  <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="loginModalLabel">Login</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <form id="loginForm">
-            <div class="mb-3">
-              <label for="username" class="form-label">Username</label>
-              <input type="text" class="form-control" id="username" required>
-            </div>
-            <div class="mb-3">
-              <label for="password" class="form-label">Password</label>
-              <input type="password" class="form-control" id="password" required>
-            </div>
-            <button type="submit" class="btn btn-primary">Login</button>
-          </form>
-        </div>
+<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="loginModalLabel">Login</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="loginForm">
+          <div class="mb-3">
+            <label for="username" class="form-label">Username</label>
+            <input type="text" class="form-control" id="username" required>
+          </div>
+          <div class="mb-3">
+            <label for="password" class="form-label">Password</label>
+            <input type="password" class="form-control" id="password" required>
+          </div>
+          <button type="submit" class="btn btn-primary">Login</button>
+        </form>
+        <p>Don't have an account? <a href="#" id="showRegisterForm">Register here</a></p>
       </div>
     </div>
   </div>
+</div>
+
+<!-- Modal Register -->
+<div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="registerModalLabel">Register</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="registerForm">
+          <div class="mb-3">
+            <label for="newUsername" class="form-label">Username</label>
+            <input type="text" class="form-control" id="newUsername" required>
+          </div>
+          <div class="mb-3">
+            <label for="newPassword" class="form-label">Password</label>
+            <input type="password" class="form-control" id="newPassword" required>
+          </div>
+          <div class="mb-3">
+            <label for="newEmail" class="form-label">Email</label>
+            <input type="email" class="form-control" id="newEmail" required>
+          </div>
+          <div class="mb-3">
+            <label for="newPhone" class="form-label">Phone Number</label>
+            <input type="text" class="form-control" id="newPhone" required>
+          </div>
+            <label for="newRole" class="form-role">Role</label>
+            <input type="text" class="form-control" id="newRole" value="customer" readonly>
+          </div>
+          <button type="submit" class="btn btn-primary">Register</button>
+        </form>
+        <p>Already have an account? <a href="#" id="showLoginForm">Login here</a></p>
+      </div>
+    </div>
+  </div>
+</div>
+
 
   <!-- Modal Booking -->
   <div class="modal fade" id="bookingModal" tabindex="-1" aria-labelledby="bookingModalLabel" aria-hidden="true">
@@ -103,7 +143,7 @@
   </div>
 
   <!-- Footer -->
-  <footer class="bg-dark text-white text-center py-3">
+  <footer class="bg text-white text-center py-3">
     <p>&copy; 2025 BOBA Cinema. All Rights Reserved.</p>
   </footer>
 
@@ -113,7 +153,41 @@
 
   <!-- Script untuk handle form login dan booking -->
   <script>
-    
+
+        const registerForm = document.getElementById('registerForm');
+
+        registerForm.addEventListener('submit', async (e) => {
+          e.preventDefault();
+
+          const username = document.getElementById('newUsername').value;
+          const password = document.getElementById('newPassword').value;
+          const email = document.getElementById('newEmail').value;
+          const phone_number = document.getElementById('newPhone').value;
+          const role = document.getElementById('newRole').value;
+
+          try {
+            const response = await fetch('http://localhost:5000/api/auth/register', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ username, password, email, phone_number, role })
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+              alert('Registration successful!');
+              const modal = bootstrap.Modal.getInstance(document.getElementById('registerModal'));
+              modal.hide();
+            } else {
+              alert(data.message || 'Registration failed. Please try again.');
+            }
+          } catch (error) {
+            console.error('Error registering user:', error);
+            alert('An error occurred. Please try again later.');
+          }
+        });
+
+
         const loginForm = document.getElementById('loginForm');
         const bookingForm = document.getElementById('bookingForm');
     
@@ -154,6 +228,33 @@
           }
         });
 
+
+  document.getElementById('showLoginForm').addEventListener('click', (e) => {
+  e.preventDefault();
+  
+  // Tutuplah modal register terlebih dahulu
+  const registerModal = new bootstrap.Modal(document.getElementById('registerModal'));
+  registerModal.hide();
+  
+  // Buka modal login
+  const loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
+  loginModal.show();
+  });
+
+  document.getElementById('showRegisterForm').addEventListener('click', (e) => {
+  e.preventDefault();
+  
+  // Tutuplah modal login terlebih dahulu
+  const loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
+  loginModal.hide();
+  
+  // Buka modal register
+  const registerModal = new bootstrap.Modal(document.getElementById('registerModal'));
+  registerModal.show();
+  });
+
+
+
     async function loadShowtimes() {
       try {
         const response = await fetch('http://localhost:5000/api/showtimes');
@@ -173,7 +274,7 @@
                     <p class="card-text">Start: ${new Date(showtime.start_time).toLocaleString()}</p>
                     <p class="card-text">End: ${new Date(showtime.end_time).toLocaleString()}</p>
                     <p class="card-text">Price: Rp.${showtime.price}</p>
-                    <button type="button" class="btn btn-primary" onclick="window.location.href='booking.html?showtime_id=${showtime.showtime_id}'">preview</button>
+                    <button type="button" class="btn btn-primary" onclick="window.location.href='showtime.html?showtime_id=${showtime.showtime_id}'">Preview</button>
                   </div>
                 </div>
               </div>
