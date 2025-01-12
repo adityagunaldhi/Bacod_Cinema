@@ -21,7 +21,7 @@ body{
     height: 70%;
     padding: 5px;
     float: left;
-    background-color: violet; 
+    background-color: #d500f9; 
     text-align: center;
     color:white; 
       
@@ -35,14 +35,14 @@ body{
 #cinema-location{
     height:30px;
     padding:5px;
-    background-color: green;
+    background-color: #d500f9;
     clear: both;
 }
 
 #booked-seat{
     height:30px;
     padding:5px;
-    background-color: grey;
+    background-color: #d500f9;
     clear: both;
 }
 
@@ -51,5 +51,9 @@ body{
     height: 500px; /* Tinggi gambar tetap */
     object-fit: cover; /* Gambar akan dipotong agar sesuai dengan dimensi */
     border-radius: 5px; /* Opsional: Untuk memberikan efek sudut melengkung */
+}
+
+.bg{
+    background-color: #4A148C;
 }
 
