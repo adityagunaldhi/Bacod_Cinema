@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking Kursi Bioskop</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            text-align: center;
+            padding: 20px;
+        }
+        h1 {
+            margin-bottom: 20px;
+        }
+        .theater {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .row {
+            display: flex;
+            justify-content: center;
+            margin: 5px 0;
+        }
+        .seat {
+            width: 40px;
+            height: 40px;
+            margin: 5px;
+            background-color: #4CAF50; /* Warna kursi kosong */
+            border: 1px solid #333;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .seat.selected {
+            background-color: #FF5733; /* Warna kursi yang dipilih */
+        }
+        .seat.taken {
+            background-color: #FF0000; /* Warna kursi yang sudah terisi (merah) */
+            cursor: not-allowed;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Booking Kursi Bioskop</h1>
+    <div class="theater">
+        <div class="row">
+            <div class="seat" data-seat="A1"></div>
+            <div class="seat" data-seat="A2"></div>
+            <div class="seat" data-seat="A3"></div>
+            <div class="seat taken" data-seat="A4"></div>
+            <div class="seat" data-seat="A5"></div>
+        </div>
+        <div class="row">
+            <div class="seat" data-seat="B1"></div>
+            <div class="seat" data-seat="B2"></div>
+            <div class="seat" data-seat="B3"></div>
+            <div class="seat" data-seat="B4"></div>
+            <div class="seat" data-seat="B5"></div>
+        </div>
+        <div class="row">
+            <div class="seat" data-seat="C1"></div>
+            <div class="seat" data-seat="C2"></div>
+            <div class="seat" data-seat="C3"></div>
+            <div class="seat" data-seat="C4"></div>
+            <div class="seat" data-seat="C5"></div>
+        </div>
+        <div class="row">
+            <div class="seat" data-seat="D1"></div>
+            <div class="seat" data-seat="D2"></div>
+            <div class="seat" data-seat="D3"></div>
+            <div class="seat" data-seat="D4"></div>
+            <div class="seat" data-seat="D5"></div>
+        </div>
+        <div class="row">
+            <div class="seat" data-seat="E1"></div>
+            <div class="seat" data-seat="E2"></div>
+            <div class="seat" data-seat="E3"></div>
+            <div class="seat" data-seat="E4"></div>
+            <div class="seat" data-seat="E5"></div>
+        </div>
+    </div>
+    <button id="bookButton">Pesan Kursi</button>
+    <p id="message"></p>
+
+    <script>
+        const seats = document.querySelectorAll('.seat');
+        const bookButton = document.getElementById('bookButton');
+        const message = document.getElementById('message');
+        let selectedSeats = [];
+
+        // Event listener untuk kursi
+        seats.forEach(seat => {
+            seat.addEventListener('click', () => {
+                if (!seat.classList.contains('taken')) {
+                    seat.classList.toggle('selected');
+                    const seatNumber = seat.getAttribute('data-seat');
+                    if (selectedSeats.includes(seatNumber)) {
+                        selectedSeats = selectedSeats.filter(s => s !== seatNumber);
+                    } else {
+                        selectedSeats.push(seatNumber);
+                    }
+                }
+            });
+        });
+
+        // Event listener untuk tombol booking
+        bookButton.addEventListener('click', () => {
+            if (selectedSeats.length > 0) {
+                message.textContent = `Kursi yang dipesan: ${selectedSeats.join(', ')}`;
+                selectedSeats.forEach(seatNumber => {
+                    const seat = [...seats].find(s => s.getAttribute('data-seat') === seatNumber);
+                    seat.classList.add('taken'); // Menandai kursi sebagai terisi
+                    seat.classList.remove('selected'); // Menghapus kelas 'selected'
+                });
+                selectedSeats = [];
+            } else {
+                message.textContent = 'Silakan pilih kursi terlebih dahulu.';
+            }
+        });
+    </script>
+
+</body>
+</html>

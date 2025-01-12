@@ -21,7 +21,7 @@ body{
     height: 70%;
     padding: 5px;
     float: left;
-    background-color: #d500f9; 
+    background-color: violet; 
     text-align: center;
     color:white; 
       
@@ -35,25 +35,21 @@ body{
 #cinema-location{
     height:30px;
     padding:5px;
-    background-color: #d500f9;
+    background-color: green;
     clear: both;
 }
 
 #booked-seat{
     height:30px;
     padding:5px;
-    background-color: #d500f9;
+    background-color: grey;
     clear: both;
 }
 
-#card-image-top {
+#card-img-top {
     width: 100%; /* Pastikan gambar memenuhi lebar kartu */
     height: 500px; /* Tinggi gambar tetap */
     object-fit: cover; /* Gambar akan dipotong agar sesuai dengan dimensi */
     border-radius: 5px; /* Opsional: Untuk memberikan efek sudut melengkung */
-}
-
-.bg{
-    background-color: #4A148C;
 }
 
