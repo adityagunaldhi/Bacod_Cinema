@@ -38,6 +38,7 @@ const updateBookingStatus = async (req, res) => {
   }
 };
 
+<<<<<<< HEAD
 const createBooking = async (req, res) => {
   const { showtime_id, seat_numbers, total_amount } = req.body;
 
@@ -97,9 +98,14 @@ const createBooking = async (req, res) => {
 
 
 
+=======
+>>>>>>> e17d88859702b66943a44fa4c29bf852766dfdc1
 module.exports = {
   getBookings,
   addBooking,
   updateBookingStatus,
+<<<<<<< HEAD
   createBooking,
+=======
+>>>>>>> e17d88859702b66943a44fa4c29bf852766dfdc1
 };

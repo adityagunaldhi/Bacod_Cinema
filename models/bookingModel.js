@@ -27,6 +27,7 @@ const updateBookingStatus = async (booking_id, status) => {
   }
 };
 
+<<<<<<< HEAD
 const createMultipleBookings = async (booking) => {
     try {
         const bookingIds = await db('booking').insert(booking);
@@ -47,10 +48,15 @@ const getExistingBookings = async (showtime_id, seatArray) => {
 
 
 
+=======
+>>>>>>> e17d88859702b66943a44fa4c29bf852766dfdc1
 module.exports = {
   getAllBookings,
   addBooking,
   updateBookingStatus,
+<<<<<<< HEAD
   createMultipleBookings,
   getExistingBookings,
+=======
+>>>>>>> e17d88859702b66943a44fa4c29bf852766dfdc1
 };
