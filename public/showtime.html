@@ -71,7 +71,7 @@
             referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
         </div>
         <div class="d-flex justify-content-center mt-4">
-            <button type="button" class="btn btn-primary" onclick="window.location.href='bookSeat.html?showtime_id=${showtime.showtime_id}'";>Book Now</button>
+            <button type="button" class="btn btn-primary" onclick="bookNow(6)";>Book Now</button>
         </div>
     </section>    
 </div>
@@ -127,6 +127,16 @@
             }
         }
         loadShowtimeDetails();
+
+        function bookNow() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const showtimeId = urlParams.get('showtime_id');
+            if (showtimeId) {
+                window.location.href = `bookSeat.html?showtime_id=${showtimeId}`;
+            } else {
+                alert("Cannot book without a valid showtime ID.");
+            }
+        }
     </script>
 </body>
 
