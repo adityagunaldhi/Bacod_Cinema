@@ -64,7 +64,7 @@ body {
 }
 
 .main-content {
-    background-image: url('https://previews.123rf.com/images/robertsrob/robertsrob1611/robertsrob161100034/65198250-old-paper-with-film-strip-background.jpg'); /* Ganti dengan URL gambar Anda */
+    background-image: url(Background\ invoice.jpeg); /* Ganti dengan URL gambar Anda https://previews.123rf.com/images/robertsrob/robertsrob1611/robertsrob161100034/65198250-old-paper-with-film-strip-background.jpg'*/
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
