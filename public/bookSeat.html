@@ -59,7 +59,11 @@
                     </table>
                 </div>
                 <div class="d-flex justify-content-center mt-4">
+<<<<<<< HEAD
+                    <button type="button" class="btn btn-primary">Book Now</button>
+=======
                     <button type="button" class="btn btn-primary" onclick="window.location.href='transaksi.html'";>Book Now</button>
+>>>>>>> e17d88859702b66943a44fa4c29bf852766dfdc1
                 </div>
             </div>
         </div>
@@ -170,6 +174,73 @@
         // Hitung dan tampilkan total harga
         totalPriceDisplay.textContent = `Rp. ${(selectedSeats.length * price).toLocaleString('id-ID')}`;
     }
+<<<<<<< HEAD
+
+    async function bookSeats() {
+    const selectedSeats = document.querySelectorAll('.seat.selected');
+    const selectedLabels = [...selectedSeats].map(seat => seat.getAttribute('data-seat'));
+
+    if (!selectedLabels.length) {
+        alert('Please select at least one seat.');
+        return;
+    }
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const showtimeId = urlParams.get('showtime_id');
+
+    if (!showtimeId) {
+        alert('Showtime ID is missing!');
+        return;
+    }
+
+    const totalAmount = parseFloat(
+        totalPriceDisplay.textContent.replace(/[^\d]/g, '') // Hapus format Rupiah
+    );
+
+    if (!totalAmount || isNaN(totalAmount)) {
+        alert('Total amount is invalid!');
+        return;
+    }
+
+    const bookingData = {
+        showtime_id: showtimeId,
+        seat_numbers: selectedLabels.join(', '), // Gabungkan kursi menjadi string
+        total_amount: totalAmount,
+    };
+
+    console.log('Booking Data:', bookingData); // Debugging log
+
+    try {
+        const response = await fetch('http://localhost:5000/api/bookings/book-seat', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(bookingData),
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+            alert('Booking successful!');
+            window.location.href = `http://localhost:5000/transaction.html?booking_id=${result.booking_id}`; // Redirect ke halaman sukses
+        } else if (result.occupiedSeats) {
+            alert(`Seats already booked: ${result.occupiedSeats.join(', ')}`);
+        } else {
+            alert(`Booking failed: ${result.message}`);
+        }
+    } catch (error) {
+        console.error('Error booking seats:', error);
+        alert('An error occurred while booking. Please try again later.');
+    }
+}
+
+
+// Tambahkan event listener untuk tombol "Book Now"
+document.querySelector('button.btn-primary').addEventListener('click', bookSeats);
+
+=======
+>>>>>>> e17d88859702b66943a44fa4c29bf852766dfdc1
     </script>
 </body>
 

@@ -38,8 +38,74 @@ const updateBookingStatus = async (req, res) => {
   }
 };
 
+<<<<<<< HEAD
+const createBooking = async (req, res) => {
+  const { showtime_id, seat_numbers, total_amount } = req.body;
+
+  
+  // Validasi input
+  if (!showtime_id || !seat_numbers || !total_amount) {
+      return res.status(400).json({ 
+          success: false, 
+          message: 'Missing required fields.' 
+      });
+  }
+
+  const bookingDate = new Date();
+  const status = 'confirmed';
+
+  try {
+      // Validasi apakah ada kursi yang sudah dipesan
+      const seatArray = seat_numbers.split(',').map(seat => seat.trim());
+      const existingBookings = await bookingModel.getExistingBookings(showtime_id, seatArray);
+
+      if (existingBookings.length > 0) {
+          const occupiedSeats = existingBookings.map(b => b.seat_number);
+          return res.status(400).json({
+              success: false,
+              message: 'Some seats are already booked.',
+              occupiedSeats,
+          });
+      }
+
+      // Gabungkan semua kursi ke satu string
+      const seatString = seatArray.join(',');
+
+      // Simpan booking sebagai satu entri
+      const bookingId = await bookingModel.createMultipleBookings({
+          showtime_id,
+          seat_number: seatString,
+          total_amount,
+          booking_date: bookingDate,
+          status,
+      });
+
+      res.status(201).json({
+          success: true,
+          message: 'Booking created successfully!',
+          booking_id: bookingId,
+      });
+  } catch (error) {
+      console.error('Error creating booking:', error);
+      res.status(500).json({
+          success: false,
+          message: 'Failed to create booking.',
+          error: error.message,
+      });
+  }
+};
+
+
+
+
+=======
+>>>>>>> e17d88859702b66943a44fa4c29bf852766dfdc1
 module.exports = {
   getBookings,
   addBooking,
   updateBookingStatus,
+<<<<<<< HEAD
+  createBooking,
+=======
+>>>>>>> e17d88859702b66943a44fa4c29bf852766dfdc1
 };
