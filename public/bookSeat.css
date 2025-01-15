@@ -3,7 +3,7 @@
 }
 
 .main {
-    background-image: url('https://previews.123rf.com/images/robertsrob/robertsrob1611/robertsrob161100034/65198250-old-paper-with-film-strip-background.jpg'); /* Ganti dengan URL gambar Anda */
+    background-image: url(Background\ invoice.jpeg); /* Ganti dengan URL gambar Anda */
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -17,6 +17,7 @@
     flex-direction: row;
     display: flex; 
     align-items: stretch;  
+    background: url(Background\ invoice.jpeg) center/cover;
 }
 
 .tickets {
@@ -25,7 +26,8 @@
     flex-wrap: wrap;            
     padding: 20px; 
     height: 100vh;
-    flex-grow: 8; 
+    flex-grow: 8;
+    color: white;
 }
 
 .tickets-screen {
@@ -46,6 +48,7 @@
     gap: 10px;
     justify-content: center;
     margin-top: 20px;
+    color: black;
 }
 
 .seat {
