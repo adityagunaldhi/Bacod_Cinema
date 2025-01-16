@@ -40,7 +40,8 @@ const updateBookingStatus = async (req, res) => {
 
 const createBooking = async (req, res) => {
   const { showtime_id, seat_numbers, total_amount, name, email, phone } = req.body;
-
+  console.log('Booking Request: ', { showtime_id, seat_numbers, total_amount, name, email, phone});
+  
   
   // Validasi input
   if (!showtime_id || !seat_numbers || !total_amount || !name || !email || !phone ) {

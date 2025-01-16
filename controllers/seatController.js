@@ -101,4 +101,4 @@ module.exports = {
   updateSeatStatus,
   checkAvailableSeats,
   getSeatsByShowtime,
-}
+};

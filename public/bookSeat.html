@@ -83,6 +83,20 @@
 
 
 <script>
+    function validateInput() {
+      const name = document.getElementById('name');
+      const email = document.getElementById('email');
+      const phone = document.getElementById('phone');
+      const button = document.getElementById('submitButton');
+
+      // Cek apakah semua input terisi
+      if (name.value.trim() !== "" && email.value.trim() !== "" && phone.value.trim() !== "" && payment.value !== "" && bukti.files.length > 0) {
+        button.disabled = false; // Aktifkan tombol
+      } else {
+        button.disabled = true; // Nonaktifkan tombol
+      }
+    }
+
     async function loadShowtimeBook() {
             const urlParams = new URLSearchParams(window.location.search);
             const showtimeId = urlParams.get('showtime_id');
@@ -216,7 +230,7 @@
 
     const bookingData = {
         showtime_id: showtimeId,
-        seat_numbers: selectedLabels.join(', '), // Gabungkan kursi menjadi string
+        seat_numbers: selectedLabels.join(','), // Gabungkan kursi menjadi string
         total_amount: totalAmount,
         name,
         email,
@@ -242,7 +256,7 @@
         } else if (result.occupiedSeats) {
             alert(`Seats already booked: ${result.occupiedSeats.join(', ')}`);
         } else {
-            alert(`Booking failed: ${result.message}`);
+            alert(`Booking failed: Some Seat already Booked`);
         }
     } catch (error) {
         console.error('Error booking seats:', error);

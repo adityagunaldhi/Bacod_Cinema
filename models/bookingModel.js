@@ -33,12 +33,16 @@ const createMultipleBookings = async (booking) => {
         const bookingIds = await db('booking').insert(booking);
         return bookingIds;
     } catch (error) {
+      if (error.code === '23505')
         console.error('Error creating bookings:', error);
-        throw error;
+        throw new error('Seat is already booked');
     }
 };
 
 const getExistingBookings = async (showtime_id, seatArray) => {
+  if (!seatArray || seatArray.length === 0){
+    return [];
+  }
   return await db('booking')
       .select('seat_number')
       .where('showtime_id', showtime_id)
