@@ -1,5 +1,6 @@
 const seatModel = require('../models/seatModel');
 
+
 // Mengambil semua kursi beserta statusnya berdasarkan screen_id
 const getSeatsByScreen = async (req, res) => {
   try {
@@ -100,4 +101,4 @@ module.exports = {
   updateSeatStatus,
   checkAvailableSeats,
   getSeatsByShowtime,
-};
+}

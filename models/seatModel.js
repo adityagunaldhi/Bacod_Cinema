@@ -31,7 +31,6 @@ const getAllSeats = async (screen_id) => {
   }
 };
 
-
 // Menambah kursi baru
 const addSeat = async (data) => {
   try {
@@ -111,6 +110,7 @@ const getSeatsByShowtime = async (showtime_id) => {
 
 
 
+
 module.exports = {
   getAllSeats,
   addSeat,
@@ -118,3 +118,5 @@ module.exports = {
   checkAvailableSeats,
   getSeatsByShowtime,
 }
+
+

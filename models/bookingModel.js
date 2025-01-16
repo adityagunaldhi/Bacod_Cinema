@@ -46,9 +46,6 @@ const getExistingBookings = async (showtime_id, seatArray) => {
 };
 
 
-
-
-
 module.exports = {
   getAllBookings,
   addBooking,

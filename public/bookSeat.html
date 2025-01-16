@@ -38,6 +38,11 @@
             <div class="booked justify-content-center">
                 <img src="" id="poster" class="card-img-top" alt="Poster">
                 <p class="text-center" id="titleDetail"><strong><b>Judul</b></strong></p>
+                <input type="text" id="name" placeholder="Input Your Name ..." oninput="validateInput()">
+                <br>
+                <input type="email" id="email" placeholder="Input Your Email ..." oninput="validateInput()">
+                <br>
+                <input type="number" id="phone" placeholder="Input Your Phone Number ..." oninput="validateInput()">
                 <div>
                     <table class="table-transactions">
                         <tr>
@@ -200,10 +205,22 @@
         return;
     }
 
+    const name = document.getElementById('name').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const phone = document.getElementById('phone').value.trim();
+
+    if (!name || !email || !phone){
+        alert('Please complete all fields (Name, Email, Phone).');
+        return;
+    }
+
     const bookingData = {
         showtime_id: showtimeId,
         seat_numbers: selectedLabels.join(', '), // Gabungkan kursi menjadi string
         total_amount: totalAmount,
+        name,
+        email,
+        phone,
     };
 
     console.log('Booking Data:', bookingData); // Debugging log

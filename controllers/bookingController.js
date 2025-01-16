@@ -39,11 +39,11 @@ const updateBookingStatus = async (req, res) => {
 };
 
 const createBooking = async (req, res) => {
-  const { showtime_id, seat_numbers, total_amount } = req.body;
+  const { showtime_id, seat_numbers, total_amount, name, email, phone } = req.body;
 
   
   // Validasi input
-  if (!showtime_id || !seat_numbers || !total_amount) {
+  if (!showtime_id || !seat_numbers || !total_amount || !name || !email || !phone ) {
       return res.status(400).json({ 
           success: false, 
           message: 'Missing required fields.' 
@@ -72,12 +72,15 @@ const createBooking = async (req, res) => {
 
       // Simpan booking sebagai satu entri
       const bookingId = await bookingModel.createMultipleBookings({
-          showtime_id,
-          seat_number: seatString,
-          total_amount,
-          booking_date: bookingDate,
-          status,
-      });
+        showtime_id,
+        seat_number: seatString,
+        total_amount,
+        name,
+        email,
+        phone,
+        booking_date: bookingDate,
+        status,
+    });
 
       res.status(201).json({
           success: true,
@@ -93,9 +96,6 @@ const createBooking = async (req, res) => {
       });
   }
 };
-
-
-
 
 module.exports = {
   getBookings,
