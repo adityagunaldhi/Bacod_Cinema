@@ -5,24 +5,20 @@ const getAllSeats = async (screen_id) => {
   try {
     const seats = await db('seats')
       .select(
-        'seats.seat_id',
-        'seats.seat_number',
-        'seats.seat_type',
+        'seats.*',
         db.raw(`
-          CASE 
-            WHEN EXISTS (
-              SELECT 1 
-              FROM booking_details 
-              JOIN bookings ON booking_details.booking_id = bookings.booking_id
-              JOIN showtimes ON bookings.showtime_id = showtimes.showtime_id
-              WHERE booking_details.seat_id = seats.seat_id 
-                AND showtimes.screen_id = ?
-            ) THEN 'booked'
-            ELSE 'available'
-          END AS status
+          CASE
+              WHEN EXISTS (
+                SELECT 1
+                FROM booking
+                JOIN showtimes ON booking.showtime_id = showtimes.showtime_id
+                WHERE booking.seat_number COLLATE utf8mb4_general_ci LIKE CONCAT('%', seats.seat_number COLLATE utf8mb4_general_ci, '%')
+                AND showtimes.showtime_id = ?
+              ) THEN 'booked'
+              ELSE 'available'
+            END AS status
         `, [screen_id])
-      )
-      .where('seats.screen_id', screen_id);
+      );
 
     return seats;
   } catch (error) {

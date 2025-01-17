@@ -44,7 +44,7 @@
 .tickets-seats {
     display: grid;
     text-align: center;
-    grid-template-columns: repeat(10, 40px);
+    grid-template-columns: repeat(4, 40px);
     gap: 10px;
     justify-content: center;
     margin-top: 20px;
