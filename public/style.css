@@ -6,10 +6,10 @@
   }
 
 .hero-section {
-    background: url(Background\ invoice.jpeg) center/cover;
-    color: white;
+    background: url('') center/cover;
+    color: black;
     text-align: center;
-    padding: 50px 0;    
+    padding: 50px 0;
 }
 .movie-card {
     transition: transform 0.3s;
@@ -17,8 +17,3 @@
 .movie-card:hover {
     transform: scale(1.05);
 }
-
-.bg{
-    background-color:#4A148C;
-}
-

@@ -14,6 +14,11 @@ const userRoutes = require('./routes/userRoutes');
 const showtimesRoutes = require('./routes/showtimesRoutes');
 const bookingDetailsRoutes = require('./routes/bookingDetailsRoutes');
 const screenRoutes = require('./routes/screenRoutes');
+const transactionRoutes = require('./routes/transactionRoutes');
+const detailBookingRoutes = require('./routes/detailBookingRoutes');
+const approvalRoutes = require('./routes/approvalRoutes');
+const invoiceRoutes = require('./routes/invoiceRoutes');
+
 const path = require('path');
 
 // Akses lintas domain
@@ -31,6 +36,10 @@ app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/showtimes', showtimesRoutes);
 app.use('/api/bookings-details', bookingDetailsRoutes);
+app.use('/api', transactionRoutes);
+app.use('/api', detailBookingRoutes);
+app.use('/api', approvalRoutes);
+app.use('/api', invoiceRoutes);
 app.use('/api/screens', screenRoutes);
 app.use(express.static(path.join(__dirname,'public')));
 

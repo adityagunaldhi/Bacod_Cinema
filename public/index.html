@@ -27,10 +27,10 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="#">Home</a>
+              <a class="nav-link" aria-current="page" href="index.html">Home</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Link</a>
+              <a class="nav-link" href="approval.html" id="approval-link">Approval</a>
             </li>
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -48,14 +48,14 @@
               <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">History Transaction</a>
             </li>
           </ul>
+          <div class="d-flex">
+              <button type="button" class="btn btn-outline-light m-3" data-bs-toggle="modal" data-bs-target="#loginModal">Login</button>
+          </div>
           
         </div>
-      </div>
+   </div>
     </nav>
-    <div class="d-flex">
-        <button type="button" class="btn btn-outline-light m-3" data-bs-toggle="modal" data-bs-target="#loginModal">Login</button>
-    </div>
-    </nav>
+    
   </header>
 
   <!-- Hero Section -->
@@ -364,6 +364,33 @@
         alert('An error occurred. Please try again later.');
       }
     });
+
+    document.addEventListener('DOMContentLoaded', () => {
+    const approvalLink = document.getElementById('approval-link');
+
+    // Ambil token dari localStorage
+    const token = localStorage.getItem('authToken');
+
+    if (token) {
+        try {
+            // Decode token untuk mendapatkan payload
+            const payload = JSON.parse(atob(token.split('.')[1])); // Hanya berlaku untuk JWT
+
+            // Periksa apakah pengguna adalah admin
+            if (payload.role !== 'admin') {
+                console.warn('Access denied: User is not an admin');
+                approvalLink.style.display = 'none'; // Sembunyikan link
+            }
+        } catch (error) {
+            console.error('Invalid token format:', error);
+            approvalLink.style.display = 'none'; // Sembunyikan link jika token tidak valid
+        }
+    } else {
+        console.warn('No token found: User not logged in');
+        approvalLink.style.display = 'none'; // Sembunyikan link jika tidak ada token
+    }
+});
+
   </script>
 </body>
 </html>

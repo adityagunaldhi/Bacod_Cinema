@@ -18,6 +18,30 @@
           <h1>BOBA Cinema</h1>
           <p>Tempat terbaik untuk menonton film favorit Anda</p>
         </div>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top"> 
+            <div class="container">
+              <a class="navbar-brand" href="#">
+                    <img src="Logo BOBA cinema.png" width= 80 alt="BOBA Cinema">
+              </a>
+              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+              <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                  <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="index.html">Home</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="showtime.html">Back</a>
+                  </li>
+                </ul>
+                <div class="d-flex">
+                    <button type="button" class="btn btn-outline-light m-3" data-bs-toggle="modal" data-bs-target="#loginModal">Login</button>
+                </div>
+                
+              </div>
+         </div>
+          </nav>
         <div class="bg-white text-dark">
             <h2 class="text-center mt-4 py-3">BOOK YOUR SEAT</h2>
         </div>
@@ -38,6 +62,11 @@
             <div class="booked justify-content-center">
                 <img src="" id="poster" class="card-img-top" alt="Poster">
                 <p class="text-center" id="titleDetail"><strong><b>Judul</b></strong></p>
+                <input type="text" id="name" placeholder="Input Your Name ..." oninput="validateInput()">
+                <br>
+                <input type="email" id="email" placeholder="Input Your Email ..." oninput="validateInput()">
+                <br>
+                <input type="number" id="phone" placeholder="Input Your Phone Number ..." oninput="validateInput()">
                 <div>
                     <table class="table-transactions">
                         <tr>
@@ -59,7 +88,9 @@
                     </table>
                 </div>
                 <div class="d-flex justify-content-center mt-4">
-                    <button type="button" class="btn btn-primary" onclick="window.location.href='transaksi.html'";>Book Now</button>
+
+                    <button type="button" class="btn btn-primary">Book Now</button>
+
                 </div>
             </div>
         </div>
@@ -76,6 +107,20 @@
 
 
 <script>
+    function validateInput() {
+      const name = document.getElementById('name');
+      const email = document.getElementById('email');
+      const phone = document.getElementById('phone');
+      const button = document.getElementById('submitButton');
+
+      // Cek apakah semua input terisi
+      if (name.value.trim() !== "" && email.value.trim() !== "" && phone.value.trim() !== "" && payment.value !== "" && bukti.files.length > 0) {
+        button.disabled = false; // Aktifkan tombol
+      } else {
+        button.disabled = true; // Nonaktifkan tombol
+      }
+    }
+
     async function loadShowtimeBook() {
             const urlParams = new URLSearchParams(window.location.search);
             const showtimeId = urlParams.get('showtime_id');
@@ -170,6 +215,84 @@
         // Hitung dan tampilkan total harga
         totalPriceDisplay.textContent = `Rp. ${(selectedSeats.length * price).toLocaleString('id-ID')}`;
     }
+
+
+    async function bookSeats() {
+    const selectedSeats = document.querySelectorAll('.seat.selected');
+    const selectedLabels = [...selectedSeats].map(seat => seat.getAttribute('data-seat'));
+
+    if (!selectedLabels.length) {
+        alert('Please select at least one seat.');
+        return;
+    }
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const showtimeId = urlParams.get('showtime_id');
+
+    if (!showtimeId) {
+        alert('Showtime ID is missing!');
+        return;
+    }
+
+    const totalAmount = parseFloat(
+        totalPriceDisplay.textContent.replace(/[^\d]/g, '') // Hapus format Rupiah
+    );
+
+    if (!totalAmount || isNaN(totalAmount)) {
+        alert('Total amount is invalid!');
+        return;
+    }
+
+    const name = document.getElementById('name').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const phone = document.getElementById('phone').value.trim();
+
+    if (!name || !email || !phone){
+        alert('Please complete all fields (Name, Email, Phone).');
+        return;
+    }
+
+    const bookingData = {
+        showtime_id: showtimeId,
+        seat_numbers: selectedLabels.join(','), // Gabungkan kursi menjadi string
+        total_amount: totalAmount,
+        name,
+        email,
+        phone,
+    };
+
+    console.log('Booking Data:', bookingData); // Debugging log
+
+    try {
+        const response = await fetch('http://localhost:5000/api/bookings/book-seat', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(bookingData),
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+            alert('Booking successful!');
+            window.location.href = `http://localhost:5000/transaction.html?booking_id=${result.booking_id}`; // Redirect ke halaman sukses
+        } else if (result.occupiedSeats) {
+            alert(`Seats already booked: ${result.occupiedSeats.join(', ')}`);
+        } else {
+            alert(`Booking failed: Some Seat already Booked`);
+        }
+    } catch (error) {
+        console.error('Error booking seats:', error);
+        alert('An error occurred while booking. Please try again later.');
+    }
+}
+
+
+// Tambahkan event listener untuk tombol "Book Now"
+document.querySelector('button.btn-primary').addEventListener('click', bookSeats);
+
+
     </script>
 </body>
 

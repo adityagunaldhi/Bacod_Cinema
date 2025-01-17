@@ -11,4 +11,11 @@ router.post('/', bookingController.addBooking);
 // Endpoint update status booking
 router.put('/:booking_id', bookingController.updateBookingStatus);
 
+
+router.post('/book-seat', bookingController.createBooking);
+
+
+
+
+
 module.exports = router;
