@@ -1,9 +1,13 @@
 .card-img-top {
-    width: 100%; /* Pastikan gambar memenuhi lebar kartu */
-    height: 500px; /* Tinggi gambar tetap */
-    object-fit: cover; /* Gambar akan dipotong agar sesuai dengan dimensi */
-    border-radius: 5px; /* Opsional: Untuk memberikan efek sudut melengkung */
-  }
+    width: 100%;
+    /* Pastikan gambar memenuhi lebar kartu */
+    height: 500px;
+    /* Tinggi gambar tetap */
+    object-fit: cover;
+    /* Gambar akan dipotong agar sesuai dengan dimensi */
+    border-radius: 5px;
+    /* Opsional: Untuk memberikan efek sudut melengkung */
+}
 
 .hero-section {
     background: url('') center/cover;
@@ -11,9 +15,11 @@
     text-align: center;
     padding: 50px 0;
 }
+
 .movie-card {
     transition: transform 0.3s;
 }
+
 .movie-card:hover {
     transform: scale(1.05);
 }
