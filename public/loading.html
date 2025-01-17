@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loading...</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f8f8fa;
+            margin: 0;
+        }
+        .loading {
+            font-size: 24px;
+            font-weight: bold;
+            color: #6026ca;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="loading">Loading... Mohon Tunggu Persetujuan Admin</div>
+</body>
+<script>
+    // Polling untuk mengecek status pembayaran
+    const bookingId = localStorage.getItem('bookingId'); // Simpan ID transaksi sebelumnya
+    
+    if (!bookingId) {
+        console.error('Booking ID tidak ditemukan di localStorage!');
+        alert('Terjadi kesalahan, bookingId tidak ditemukan.');
+    }
+    const interval = setInterval(async () => {
+        const response = await fetch(`http://localhost:5000/api/payments/payment-status/${bookingId}`);
+        const data = await response.json();
+
+        if (data.status === 'Completed') {
+            clearInterval(interval);
+            window.location.href = 'invoice.html?booking_id=' + bookingId;
+        }
+    }, 5000);
+</script>
+</html>

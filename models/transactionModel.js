@@ -16,7 +16,10 @@ const Booking = {
       'cinemas.cinema_name',  // Ambil cinema_name dari tabel cinemas
       'booking.booking_id',
       'booking.booking_date',
-      'booking.total_amount'
+      'booking.total_amount',
+      'booking.name',
+      'booking.email',
+      'booking.phone'
     );
   },
 
@@ -24,7 +27,36 @@ const Booking = {
     return await knex('bookings_details').insert({
       booking_id: bookingId
     }).returning('*'); // Mengembalikan data yang baru dimasukkan
-  }
+  },
+
+// Menyimpan pembayaran
+savePayment: async (bookingId, paymentData) => {
+  return await knex('booking')
+    .where('booking_id', bookingId)
+    .update(paymentData);
+},
+
+// Mendapatkan semua pembayaran yang menunggu approval
+getPendingPayments: async () => {
+  return await knex('booking')
+    .where('status', 'Menunggu Konfirmasi')
+    .select(
+      'booking.booking_id',
+      'booking.customer_name',
+      'booking.email',
+      'booking.phone_number',
+      'booking.booking_date',
+      'booking.total_amount',
+      'booking.payment_method',
+      'booking.payment_proof',
+      'movies.title as movie_title',
+      'booking.seat_number',
+      'booking.status'
+    )
+    .leftJoin('showtimes', 'booking.showtime_id', 'showtimes.showtime_id')
+    .leftJoin('movies', 'showtimes.movie_id', 'movies.movie_id');
+  },
 };
+
 
 module.exports = Booking;

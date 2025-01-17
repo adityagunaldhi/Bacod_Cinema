@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice</title>
+</head>
+<body>
+    <div id="invoice">
+        <h1>Invoice Pemesanan</h1>
+        <p>Film: <span id="movieTitle"></span></p>
+        <p>Kursi: <span id="seatNumber"></span></p>
+        <p>Teater: <span id="cinemaName"></span></p>
+        <p>Lokasi: <span id="cinemaLocation"></span></p>
+        <p>Waktu: <span id="showTime"></span></p>
+    </div>
+    <script>
+        async function loadInvoice() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const bookingId = urlParams.get('booking_id');
+
+            const response = await fetch(`http://localhost:5000/api/invoice/${bookingId}`);
+            const data = await response.json();
+
+            document.getElementById('movieTitle').textContent = data.movie_title;
+            document.getElementById('seatNumber').textContent = data.seat_number;
+            document.getElementById('cinemaName').textContent = data.cinema_name;
+            document.getElementById('cinemaLocation').textContent = data.cinema_location;
+            document.getElementById('showTime').textContent = data.show_time;
+        }
+
+        loadInvoice();
+    </script>
+</body>
+</html>

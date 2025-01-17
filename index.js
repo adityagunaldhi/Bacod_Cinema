@@ -16,6 +16,7 @@ const bookingDetailsRoutes = require('./routes/bookingDetailsRoutes');
 const screenRoutes = require('./routes/screenRoutes');
 const transactionRoutes = require('./routes/transactionRoutes');
 const detailBookingRoutes = require('./routes/detailBookingRoutes');
+const approvalRoutes = require('./routes/approvalRoutes');
 
 const path = require('path');
 
@@ -36,6 +37,7 @@ app.use('/api/showtimes', showtimesRoutes);
 app.use('/api/bookings-details', bookingDetailsRoutes);
 app.use('/api', transactionRoutes);
 app.use('/api', detailBookingRoutes);
+app.use('/api', approvalRoutes);
 app.use('/api/screens', screenRoutes);
 app.use(express.static(path.join(__dirname,'public')));
 
