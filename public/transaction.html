@@ -134,8 +134,12 @@
                 const result = await response.json();
                 if (result.success) {
                     alert('Pembayaran berhasil diproses! Mohon menunggu konfirmasi admin.');
-                    localStorage.setItem('bookingId', result.booking_id);
-                    window.location.href = 'loading.html';
+                    console.log('Booking ID:', result.booking_id);
+
+                    if (result.booking_id){
+                        localStorage.setItem('bookingId', result.booking_id);
+                        window.location.href = 'loading.html';
+                    }
                 } else {
                     alert(result.message);
                 }

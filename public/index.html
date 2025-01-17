@@ -294,56 +294,56 @@
 
     window.onload = loadShowtimes;
 
-    function openBookingModal(showtime_id, movie_title, price) {
-      if (!localStorage.getItem('authToken')) {
-        alert("Please log in to make a booking.");
-        return;
-      }
+    // function openBookingModal(showtime_id, movie_title, price) {
+    //   if (!localStorage.getItem('authToken')) {
+    //     alert("Please log in to make a booking.");
+    //     return;
+    //   }
 
-      const modalTitle = document.getElementById('bookingModalLabel');
-      modalTitle.textContent = `Booking for ${movie_title}`;
-      document.getElementById('seats').value = '';
-      document.getElementById('paymentMethod').value = 'credit_card';
+    //   const modalTitle = document.getElementById('bookingModalLabel');
+    //   modalTitle.textContent = `Booking for ${movie_title}`;
+    //   document.getElementById('seats').value = '';
+    //   document.getElementById('paymentMethod').value = 'credit_card';
 
-      bookingForm.dataset.showtimeId = showtime_id;
-      bookingForm.dataset.price = price;
+    //   bookingForm.dataset.showtimeId = showtime_id;
+    //   bookingForm.dataset.price = price;
 
-      const modal = new bootstrap.Modal(document.getElementById('bookingModal'));
-      modal.show();
-    }
+    //   const modal = new bootstrap.Modal(document.getElementById('bookingModal'));
+    //   modal.show();
+    // }
 
-    bookingForm.addEventListener('submit', async (e) => {
-      e.preventDefault();
+    // bookingForm.addEventListener('submit', async (e) => {
+    //   e.preventDefault();
 
-      const seats = document.getElementById('seats').value.split(',').map(seat => seat.trim());
-      const paymentMethod = document.getElementById('paymentMethod').value;
-      const showtimeId = bookingForm.dataset.showtimeId;
-      const price = bookingForm.dataset.price;
+    //   const seats = document.getElementById('seats').value.split(',').map(seat => seat.trim());
+    //   const paymentMethod = document.getElementById('paymentMethod').value;
+    //   const showtimeId = bookingForm.dataset.showtimeId;
+    //   const price = bookingForm.dataset.price;
 
-      try {
-        const response = await fetch('http://localhost:5000/api/bookings', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${localStorage.getItem('authToken')}`
-          },
-          body: JSON.stringify({ showtimeId, seats, price, paymentMethod })
-        });
+    //   try {
+    //     const response = await fetch('http://localhost:5000/api/bookings', {
+    //       method: 'POST',
+    //       headers: {
+    //         'Content-Type': 'application/json',
+    //         'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+    //       },
+    //       body: JSON.stringify({ showtimeId, seats, price, paymentMethod })
+    //     });
 
-        const data = await response.json();
+    //     const data = await response.json();
 
-        if (response.ok) {
-          alert('Booking successful!');
-          const modal = bootstrap.Modal.getInstance(document.getElementById('bookingModal'));
-          modal.hide();
-        } else {
-          alert(data.message || 'Booking failed. Please try again.');
-        }
-      } catch (error) {
-        console.error('Error booking showtime:', error);
-        alert('An error occurred. Please try again later.');
-      }
-    });
+    //     if (response.ok) {
+    //       alert('Booking successful!');
+    //       const modal = bootstrap.Modal.getInstance(document.getElementById('bookingModal'));
+    //       modal.hide();
+    //     } else {
+    //       alert(data.message || 'Booking failed. Please try again.');
+    //     }
+    //   } catch (error) {
+    //     console.error('Error booking showtime:', error);
+    //     alert('An error occurred. Please try again later.');
+    //   }
+    // });
 
     document.addEventListener('DOMContentLoaded', () => {
     const approvalLink = document.getElementById('approval-link');

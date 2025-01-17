@@ -18,6 +18,8 @@ const getPayments = async (req, res) => {
                 'screen_name',
                 'payment_status'
             );
+            console.log('Payments fetched from database:', payments);
+            
         return res.status(200).json({ success: true, payments });
     } catch (error) {
         console.error('Error fetching payments:', error);
