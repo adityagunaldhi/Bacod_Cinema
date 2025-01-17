@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booked Seat</title>
+    <link rel="icon" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTMdOPkIQZ0rrJYOExiYqfN68ErDUSrCnPStw&s" type="image/x-icon">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="bookSeat.css">
+</head>
+
+<body>
+    <div id="popup" class="popup-overlay">
+        <div class="popup-content">
+            <h3>Choose Your Cinema</h3>
+            <div id="bioskopContainer">
+                <div class="bioskop-option" onclick="selectBioskop('XXI')">
+                <img src="./Cinema/XXI.png" alt="XXI">
+                <p>XXI</p>
+                </div>
+                <div class="bioskop-option" onclick="selectBioskop('CGV')">
+                <img src="./Cinema/CGV.png" alt="CGV">
+                <p>CGV</p>
+                </div>
+            </div>
+        </div>
+    </div>  
+      
+    <!-- Header -->
+    <header class="bg text-white py-3">
+        <div class="container text-center">
+          <h1>BOBA Cinema</h1>
+          <p>Tempat terbaik untuk menonton film favorit Anda</p>
+        </div>
+    </header>
+    
+    
+    <div class="bg-white text-dark py-1">
+        <h2 class="text-center">BOOK YOUR SEAT</h2>
+    </div>
+    <div class="book-tickets">
+        <div class="tickets">
+            <h2 class="text-center mt-3" id="movie_title">Judul Film</h2>
+            <!-- Tempat menampilkan hasil pilihan -->
+            <strong><p class="text-center" id="hasilPilihan" style="font-size: 23px;"></p></strong>
+            <div class="tickets-screen text-center">SCREEN</div>
+            <div class="tickets-seats py-4">
+                <!-- Seat Will be Generate on JavaScript  -->
+            </div>
+        </div>
+        <!-- Showtime Detail Section -->
+        <div class="book">
+            <h3 class="text-center">Detail Order</h3>
+            <div class="booked justify-content-center">
+                <img src="" id="poster" class="card-img-top" alt="Poster">
+                <p class="text-center py-2" id="titleDetail"><strong><b>Judul</b></strong></p>
+                <input type="text" id="name" placeholder="Input Your Name..." oninput="validateInput()">
+                <br>
+                <input type="email" id="email" placeholder="Input Your Email..." oninput="validateInput()">
+                <br>
+                <input type="number" id="phone" placeholder="Input Your Phone Number..." oninput="validateInput()">
+                <div>
+                    <table class="table-transactions">
+                        <tr>
+                            <td>Seat Number</td>
+                            <td id="selected-seats">-</td>
+                        </tr>
+                        <tr>
+                            <td width="100px">Total Tickets</td>
+                            <td id="total-seats">0</td>
+                        </tr>
+                        <tr>
+                            <td>Price</td>
+                            <td id="price">Rp. 0</td>
+                        </tr>
+                        <tr style="height: 70px; font-weight: 700;">
+                            <td>Total Price</td>
+                            <td id="total-price">Rp. 0</td>
+                        </tr>
+                    </table>
+                    <label for="payment">Pilih Metode Pembayaran:</label>
+                    <select id="payment" onchange="validateInput()">
+                      <option value="">--Pilih Metode Pembayaran--</option>
+                      <option value="bri">BRI</option>
+                      <option value="bni">BNI</option>
+                      <option value="bca">BCA</option>
+                      <option value="mandiri">MANDIRI</option>
+                    </select>
+                    <br>
+                    <input type="file" id="bukti" accept="image/*" onchange="validateInput()">
+                    <br><br>
+                </div>
+                <div class="d-flex justify-content-center mt-4">
+                    <button id="submitButton" class="btn btn-primary" disabled onclick="window.location.href='transaksi.html'">Book Now</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS dan Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+    
+    <!-- Footer -->
+    <footer class="bg text-white text-center py-3">
+        <p>&copy; 2025 BOBA Cinema. All Rights Reserved.</p>
+    </footer>
+
+
+<script>
+    function validateInput() {
+      const name = document.getElementById('name');
+      const email = document.getElementById('email');
+      const phone = document.getElementById('phone');
+      const payment = document.getElementById('payment');
+      const bukti = document.getElementById('bukti');
+      const button = document.getElementById('submitButton');
+
+      // Cek apakah semua input terisi
+      if (name.value.trim() !== "" && email.value.trim() !== "" && phone.value.trim() !== "" && payment.value !== "" && bukti.files.length > 0) {
+        button.disabled = false; // Aktifkan tombol
+      } else {
+        button.disabled = true; // Nonaktifkan tombol
+      }
+    }
+
+    // Fungsi for choosing Cinema
+    function selectBioskop(bioskop) {
+            document.getElementById("hasilPilihan").innerText = "Played on " + bioskop;
+            document.getElementById("popup").style.display = "none";
+    }
+
+    window.onload = function() {
+            document.getElementById("popup").style.display = "flex";
+    }
+
+    // JavaScript For Seat
+    const seatsContainer = document.querySelector('.tickets-seats');
+    const selectedSeatsDisplay = document.getElementById('selected-seats');
+    const totalSeatsDisplay = document.getElementById('total-seats');
+    const priceDisplay = document.getElementById('price');
+    const totalPriceDisplay = document.getElementById('total-price');
+
+    const rows = ['A', 'B', 'C', 'D', 'E'];
+    const cols = 4;
+
+    const bookedSeats = ['A1', 'C5', 'D9']; // Kursi yang sudah dipesan
+
+    // Buat kursi secara dinamis
+    rows.forEach(row => {
+        for (let col = 1; col <= cols; col++) {
+            const seatLabel = `${row}${col}`;
+            const seat = document.createElement('div');
+            seat.classList.add('seat');
+            seat.setAttribute('data-seat', seatLabel);
+            seat.textContent = seatLabel;
+
+            // Tandai kursi yang sudah dipesan
+            if (bookedSeats.includes(seatLabel)) {
+                seat.classList.add('occupied');
+            }
+
+            seatsContainer.appendChild(seat);
+        }
+    });
+
+    // Event Listener untuk memilih kursi
+    seatsContainer.addEventListener('click', (e) => {
+        if (e.target.classList.contains('seat') && !e.target.classList.contains('occupied')) {
+            e.target.classList.toggle('selected');
+            updateSelectedSeats();
+        }
+    });
+
+        // Fungsi untuk memperbarui kursi yang dipilih dan total harga
+    function updateSelectedSeats() {
+        const selectedSeats = document.querySelectorAll('.seat.selected');
+        const selectedLabels = [...selectedSeats].map(seat => seat.getAttribute('data-seat'));
+
+        // Tampilkan kursi yang dipilih
+        selectedSeatsDisplay.textContent = selectedLabels.length ? `${selectedLabels.join(', ')}` : '';
+
+        // Tampilkan total kursi yang dipilih
+        totalSeatsDisplay.textContent = `${selectedSeats.length}`;
+
+        // Ambil harga per kursi
+        const price = ticketPrice;
+
+        // Hitung dan tampilkan total harga
+        totalPriceDisplay.textContent = `Rp. ${(selectedSeats.length * price).toLocaleString('id-ID')}`;
+    }
+
+    async function loadShowtimeBook() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const showtimeId = urlParams.get('showtime_id');
+            console.log(showtimeId);
+            
+            
+            if (!showtimeId) {
+                alert('Showtime ID is missing!');
+                return;
+            }
+
+            try {
+                const response = await fetch(`http://localhost:5000/api/showtimes/${showtimeId}`);
+
+                if (!response.ok) {
+                    throw new Error(`Failed to load showtime data: ${response.statusText}`);
+                }
+
+                const data = await response.json();
+
+                if (data.success) {
+                    const showtime = data.showtime;
+                    document.getElementById("poster").src = showtime.poster_image;
+                    document.getElementById("movie_title").innerText = showtime.title;
+                    document.getElementById("titleDetail").innerText = showtime.title;
+                    document.getElementById("titleDetail").style.fontWeight = 'bold';
+                    document.getElementById("titleDetail").style.fontSize = '20px';
+                    priceDisplay.textContent = `Rp. ${showtime.price}`;
+                    ticketPrice = showtime.price;
+                } else {
+                    alert("Showtime not found");
+                }
+            } catch (error) {
+                console.error("Error loading showtime details:", error);
+                alert("An error occurred while loading the showtime details. Please try again later.");
+            }
+        }
+        loadShowtimeBook();
+    </script>
+</body>
+
+</html>

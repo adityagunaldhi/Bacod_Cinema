@@ -13,6 +13,47 @@
     z-index: 1;
 }
 
+.popup-overlay {
+    display: flex;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+  }
+
+  /* Konten Popup */
+  .popup-content {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    width: 400px;
+    text-align: center;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  }
+
+  .bioskop-option {
+    display: inline-block;
+    margin: 10px;
+    cursor: pointer;
+    transition: transform 0.3s;
+  }
+
+  .bioskop-option:hover {
+    transform: scale(1.1);
+  }
+
+  .bioskop-option img {
+    width: 120px;
+    height: 120px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+  }
+
 .book-tickets {
     flex-direction: row;
     display: flex; 
@@ -31,10 +72,10 @@
 }
 
 .tickets-screen {
-    margin-top: 50px;
+    margin-top: 100pt;
     width: 60%;
     height: 30px;
-    margin: 20px auto;
+    margin: 50px auto;
     background-color: #ccc;
     border-radius: 5px;
     line-height: 30px;
@@ -92,9 +133,18 @@
     width: 100%;
   }
   .booked .table-transactions {
-    margin-top: 100px;
+    margin-top: 30px;
     width: 100%;
-    margin-bottom: 20px;
+    /* margin-bottom: 20px; */
+  }
+
+  input {
+    padding: 10px;
+    font-size: 16px;
+    margin-top: 10px;
+    width: 100%;
+    max-width: 1000px; /* Batas maksimum lebar input */
+    box-sizing: border-box; /* Menghitung padding dan border dalam lebar input */
   }
   
   .table-transactions tr td {
@@ -111,9 +161,18 @@
     padding-top: 10px;
   }
 
+  button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+
   .card-img-top {
     width: 100%; /* Pastikan gambar memenuhi lebar kartu */
     height: 350px; /* Tinggi gambar tetap */
     object-fit: fill; /* Gambar akan dipotong agar sesuai dengan dimensi */
     border-radius: 5px; /* Opsional: Untuk memberikan efek sudut melengkung */
-}
+    position: relative;
+    z-index: 1;
+    }
+
+    

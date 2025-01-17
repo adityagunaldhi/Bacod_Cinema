@@ -108,7 +108,7 @@
                     const showtime = data.showtime;
                     document.getElementById("poster").src = showtime.poster_image;
                     document.getElementById("movie_title").innerText = showtime.title;
-                    document.getElementById("release_date").innerText = showtime.release_date;
+                    document.getElementById("release_date").innerText = showtime.release_date.substring(0,10);
                     document.getElementById("director").innerText = showtime.Director;
                     document.getElementById("starring").innerText = showtime.Starring;
                     document.getElementById("censor_rating").innerText = showtime.censor_rating;
