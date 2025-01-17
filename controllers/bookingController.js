@@ -40,7 +40,7 @@ const updateBookingStatus = async (req, res) => {
 
 const createBooking = async (req, res) => {
   const { showtime_id, seat_numbers, total_amount, name, email, phone } = req.body;
-  console.log('Booking Request: ', { showtime_id, seat_numbers, total_amount, name, email, phone});
+  // console.log('Booking Request: ', { showtime_id, seat_numbers, total_amount, name, email, phone});
   
   
   // Validasi input
@@ -57,10 +57,10 @@ const createBooking = async (req, res) => {
   try {
       // Validasi apakah ada kursi yang sudah dipesan
       const seatArray = seat_numbers.split(',').map(seat => seat.trim());
-      const existingBookings = await bookingModel.getExistingBookings(showtime_id, seatArray);
+      const occupiedSeats = await bookingModel.getExistingBookings(showtime_id, seatArray);
 
-      if (existingBookings.length > 0) {
-          const occupiedSeats = existingBookings.map(b => b.seat_number);
+      if (occupiedSeats.length > 0) {
+          // const occupiedSeats = existingBookings.map(b => b.seat_number);
           return res.status(400).json({
               success: false,
               message: 'Some seats are already booked.',
@@ -69,12 +69,12 @@ const createBooking = async (req, res) => {
       }
 
       // Gabungkan semua kursi ke satu string
-      const seatString = seatArray.join(',');
+      // const seatString = seatArray.join(',');
 
       // Simpan booking sebagai satu entri
       const bookingId = await bookingModel.createMultipleBookings({
         showtime_id,
-        seat_number: seatString,
+        seat_number: seatArray.join(','),
         total_amount,
         name,
         email,

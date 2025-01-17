@@ -3,7 +3,7 @@ const db = require('../config/config');
 //Mengambil semua data booking berdasarkan user_id
 const getAllBookings = async (user_id) => {
   try {
-    return await db('bookings').where('user_id', user_id);
+    return await db('booking').where('user_id', user_id);
   } catch (error) {
     throw error;
   }
@@ -12,7 +12,7 @@ const getAllBookings = async (user_id) => {
 //Menambahkan booking baru
 const addBooking = async (data) => {
   try {
-    return await db('bookings').insert(data);
+    return await db('booking').insert(data);
   } catch (error) {
     throw error;
   }
@@ -21,7 +21,7 @@ const addBooking = async (data) => {
 // Update status booking
 const updateBookingStatus = async (booking_id, status) => {
   try {
-    return await db('bookings').where('booking_id', booking_id).update({ status });
+    return await db('booking').where('booking_id', booking_id).update({ status });
   } catch (error) {
     throw error;
   }
@@ -43,11 +43,13 @@ const getExistingBookings = async (showtime_id, seatArray) => {
   if (!seatArray || seatArray.length === 0){
     return [];
   }
-  return await db('booking')
+  const existingBookings = await db('booking')
       .select('seat_number')
       .where('showtime_id', showtime_id)
       .whereIn('seat_number', seatArray);
+  return existingBookings.map(b => b.seat_number);
 };
+
 
 
 module.exports = {
