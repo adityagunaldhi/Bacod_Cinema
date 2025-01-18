@@ -45,8 +45,7 @@
         <div class="bg-white text-dark">
             <h2 class="text-center mt-4 py-3">BOOK YOUR SEAT</h2>
         </div>
-      </header>
- 
+    </header> 
     
     <div class="book-tickets">
         <div class="tickets">
@@ -61,12 +60,12 @@
             <h3 class="text-center">Detail Order</h3>
             <div class="booked justify-content-center">
                 <img src="" id="poster" class="card-img-top" alt="Poster">
-                <p class="text-center" id="titleDetail"><strong><b>Judul</b></strong></p>
-                <input type="text" id="name" placeholder="Input Your Name ..." oninput="validateInput()">
+                <p class="text-center py-2" id="titleDetail"><strong><b>Judul</b></strong></p>
+                <input type="text" id="name" placeholder="Input Your Name..." oninput="validateInput()">
                 <br>
-                <input type="email" id="email" placeholder="Input Your Email ..." oninput="validateInput()">
+                <input type="email" id="email" placeholder="Input Your Email..." oninput="validateInput()">
                 <br>
-                <input type="number" id="phone" placeholder="Input Your Phone Number ..." oninput="validateInput()">
+                <input type="number" id="phone" placeholder="Input Your Phone Number..." oninput="validateInput()">
                 <div>
                     <table class="table-transactions">
                         <tr>
@@ -88,9 +87,7 @@
                     </table>
                 </div>
                 <div class="d-flex justify-content-center mt-4">
-
-                    <button type="button" class="btn btn-primary">Book Now</button>
-
+                    <button id="submitButton" class="btn btn-primary" disabled onclick="window.location.href='transaction.html'">Book Now</button>
                 </div>
             </div>
         </div>
@@ -110,11 +107,11 @@
     function validateInput() {
       const name = document.getElementById('name');
       const email = document.getElementById('email');
-      const phone = document.getElementById('phone');
+      const phone = document.getElementById('phone');      
       const button = document.getElementById('submitButton');
 
       // Cek apakah semua input terisi
-      if (name.value.trim() !== "" && email.value.trim() !== "" && phone.value.trim() !== "" && payment.value !== "" && bukti.files.length > 0) {
+      if (name.value.trim() !== "" && email.value.trim() !== "" && phone.value.trim() !== "") {
         button.disabled = false; // Aktifkan tombol
       } else {
         button.disabled = true; // Nonaktifkan tombol
@@ -157,10 +154,10 @@
                 console.error("Error loading showtime details:", error);
                 alert("An error occurred while loading the showtime details. Please try again later.");
             }
-        }
-        loadShowtimeBook();
+    }
+    loadShowtimeBook();
 
-        // JavaScript For Seat
+    // JavaScript For Seat
     const seatsContainer = document.querySelector('.tickets-seats');
     const selectedSeatsDisplay = document.getElementById('selected-seats');
     const totalSeatsDisplay = document.getElementById('total-seats');
@@ -172,23 +169,30 @@
 
     const bookedSeats = [' ', ' ', ' ']; // Kursi yang sudah dipesan
 
-    // Buat kursi secara dinamis
-    rows.forEach(row => {
-        for (let col = 1; col <= cols; col++) {
-            const seatLabel = `${row}${col}`;
-            const seat = document.createElement('div');
-            seat.classList.add('seat');
-            seat.setAttribute('data-seat', seatLabel);
-            seat.textContent = seatLabel;
 
-            // Tandai kursi yang sudah dipesan
-            if (bookedSeats.includes(seatLabel)) {
-                seat.classList.add('occupied');
+    // Fungsi untuk membuat kursi secara dinamis
+    // function generateSeats() {
+        seatsContainer.innerHTML = '';  // Kosongkan kontainer kursi sebelum diisi ulang
+        rows.forEach(row => {
+            for (let col = 1; col <= cols; col++) {
+                const seatLabel = `${row}${col}`;
+                const seat = document.createElement('div');
+                seat.classList.add('seat');
+                seat.setAttribute('data-seat', seatLabel);
+                seat.textContent = seatLabel;
+
+                // Tandai kursi yang sudah dipesan
+                if (bookedSeats.includes(seatLabel)) {
+                    seat.classList.add('occupied');
+                }
+
+                seatsContainer.appendChild(seat);
             }
+        });
+    // }
 
-            seatsContainer.appendChild(seat);
-        }
-    });
+    // Panggil fungsi untuk mengambil data kursi dari database saat halaman dimuat
+    // fetchBookedSeats();
 
     // Event Listener untuk memilih kursi
     seatsContainer.addEventListener('click', (e) => {
@@ -198,102 +202,93 @@
         }
     });
 
-        // Fungsi untuk memperbarui kursi yang dipilih dan total harga
+    // Fungsi untuk memperbarui kursi yang dipilih dan total harga
     function updateSelectedSeats() {
         const selectedSeats = document.querySelectorAll('.seat.selected');
         const selectedLabels = [...selectedSeats].map(seat => seat.getAttribute('data-seat'));
 
         // Tampilkan kursi yang dipilih
-        selectedSeatsDisplay.textContent = selectedLabels.length ? `${selectedLabels.join(', ')}` : '';
+        selectedSeatsDisplay.textContent = selectedLabels.length ? `${selectedLabels.join(', ')}` : '-';
 
         // Tampilkan total kursi yang dipilih
         totalSeatsDisplay.textContent = `${selectedSeats.length}`;
 
-        // Ambil harga per kursi
-        const price = ticketPrice;
-
         // Hitung dan tampilkan total harga
-        totalPriceDisplay.textContent = `Rp. ${(selectedSeats.length * price).toLocaleString('id-ID')}`;
+        totalPriceDisplay.textContent = `Rp. ${(selectedSeats.length * ticketPrice).toLocaleString('id-ID')}`;
     }
-
 
     async function bookSeats() {
-    const selectedSeats = document.querySelectorAll('.seat.selected');
-    const selectedLabels = [...selectedSeats].map(seat => seat.getAttribute('data-seat'));
+        const selectedSeats = document.querySelectorAll('.seat.selected');
+        const selectedLabels = [...selectedSeats].map(seat => seat.getAttribute('data-seat'));
 
-    if (!selectedLabels.length) {
-        alert('Please select at least one seat.');
-        return;
-    }
-
-    const urlParams = new URLSearchParams(window.location.search);
-    const showtimeId = urlParams.get('showtime_id');
-
-    if (!showtimeId) {
-        alert('Showtime ID is missing!');
-        return;
-    }
-
-    const totalAmount = parseFloat(
-        totalPriceDisplay.textContent.replace(/[^\d]/g, '') // Hapus format Rupiah
-    );
-
-    if (!totalAmount || isNaN(totalAmount)) {
-        alert('Total amount is invalid!');
-        return;
-    }
-
-    const name = document.getElementById('name').value.trim();
-    const email = document.getElementById('email').value.trim();
-    const phone = document.getElementById('phone').value.trim();
-
-    if (!name || !email || !phone){
-        alert('Please complete all fields (Name, Email, Phone).');
-        return;
-    }
-
-    const bookingData = {
-        showtime_id: showtimeId,
-        seat_numbers: selectedLabels.join(','), // Gabungkan kursi menjadi string
-        total_amount: totalAmount,
-        name,
-        email,
-        phone,
-    };
-
-    console.log('Booking Data:', bookingData); // Debugging log
-
-    try {
-        const response = await fetch('http://localhost:5000/api/bookings/book-seat', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(bookingData),
-        });
-
-        const result = await response.json();
-
-        if (result.success) {
-            alert('Booking successful!');
-            window.location.href = `http://localhost:5000/transaction.html?booking_id=${result.booking_id}`; // Redirect ke halaman sukses
-        } else if (result.occupiedSeats) {
-            alert(`Seats already booked: ${result.occupiedSeats.join(', ')}`);
-        } else {
-            alert(`Booking failed: Some Seat already Booked`);
+        if (!selectedLabels.length) {
+            alert('Please select at least one seat.');
+            return;
         }
-    } catch (error) {
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const showtimeId = urlParams.get('showtime_id');
+
+        if (!showtimeId) {
+            alert('Showtime ID is missing!');
+            return;
+        }
+
+        const totalAmount = parseFloat(
+            totalPriceDisplay.textContent.replace(/[^\d]/g, '') // Hapus format Rupiah
+        );
+
+        if (!totalAmount || isNaN(totalAmount)) {
+            alert('Total amount is invalid!');
+            return;
+        }
+
+        const name = document.getElementById('name').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const phone = document.getElementById('phone').value.trim();
+
+        if (!name || !email || !phone){
+            alert('Please complete all fields (Name, Email, Phone).');
+            return;
+        }
+
+        const bookingData = {
+            showtime_id: showtimeId,
+            seat_numbers: selectedLabels.join(','), // Gabungkan kursi menjadi string
+            total_amount: totalAmount,
+            name,
+            email,
+            phone,
+        };
+
+        console.log('Booking Data:', bookingData); // Debugging log
+
+        try {
+            const response = await fetch('http://localhost:5000/api/bookings/book-seat', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(bookingData),
+            });
+
+            const result = await response.json();
+                if (result.success) {
+                    alert('Booking successful!');
+                    window.location.href = `http://localhost:5000/transaction.html?booking_id=${result.booking_id}`; // Redirect ke halaman sukses
+                } else if (result.occupiedSeats) {
+                    alert(`Seats already booked: ${result.occupiedSeats.join(', ')}`);
+                } else {
+                    alert(`Booking failed: Some Seat already Booked`);
+                }
+        } catch (error) {
         console.error('Error booking seats:', error);
         alert('An error occurred while booking. Please try again later.');
+        }
     }
-}
 
-
-// Tambahkan event listener untuk tombol "Book Now"
-document.querySelector('button.btn-primary').addEventListener('click', bookSeats);
-
-
-    </script>
+    // Tambahkan event listener untuk tombol "Book Now"
+    document.querySelector('button.btn-primary').addEventListener('click', bookSeats);
+</script>
 </body>
-
 </html>

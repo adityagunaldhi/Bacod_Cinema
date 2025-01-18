@@ -43,6 +43,8 @@ const getExistingBookings = async (showtime_id, seatArray) => {
   if (!seatArray || seatArray.length === 0){
     return [];
   }
+  console.log(seatArray, showtime_id);
+  
   const existingBookings = await db('booking')
       .select('seat_number')
       .where('showtime_id', showtime_id)

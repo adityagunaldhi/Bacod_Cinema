@@ -96,6 +96,15 @@
     width: 100%;
     margin-bottom: 20px;
   }
+
+  input {
+    padding: 10px;
+    font-size: 16px;
+    margin-top: 10px;
+    width: 100%;
+    max-width: 1000px; /* Batas maksimum lebar input */
+    box-sizing: border-box; /* Menghitung padding dan border dalam lebar input */
+  }
   
   .table-transactions tr td {
     padding-top: 2px;

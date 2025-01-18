@@ -65,46 +65,53 @@
 </head>
 <body>
     
-    <div class="container">
-        <a class="btn btn-outline-light" href="index.html" role="button">Home</a>
-        <img src="Logo BOBA cinema.png" alt="Logo BOBA" width="200">
-        <h1>BOBA CINEMA</h1>
-        <h2>YOUR TICKET</h2>
+<div class="container">
 
-        <div class="details">
-            <label for="date">Tanggal Transaksi:</label>
-            <input type="datetime-local" id="date" readonly>
-        </div>
+<div id="pdflayout" class="container">
+    
+   <a class="btn btn-outline-light" href="index.html" role="button">Home</a>
+            <img src="Logo BOBA cinema.png" alt="Logo BOBA" width="200">
+            <h1>BOBA CINEMA</h1>
+            <h2>YOUR TICKET</h2>
+        
+            <div class="details">
+                <label for="date">Tanggal Transaksi:</label>
+                <input type="datetime-local" id="date" readonly>
+            </div>
+        
+            <div class="details">
+                <label for="movie-title">Nama Film:</label>
+                <input type="text" id="movie-title" readonly>
+            </div>
+        
+            <div class="details">
+                <label for="movie-date">Jadwal Film:</label>
+                <input type="datetime-local" id="movie-date" readonly>
+            </div>
+        
+            <div class="details">
+                <label for="Teater">Teater:</label>
+                <input type="text" id="Teater" readonly>
+            </div>
+        
+            <div class="details">
+                <label for="location">Lokasi:</label>
+                <input type="text" id="location" readonly>
+            </div>
+        
+            <div class="details">
+                <label for="number-of-seat">Jumlah Kursi:</label>
+                <input type="number" id="number-of-seat" readonly>
+            </div>
+        
+            <div class="details">
+                <label for="seat-number">Nomor Kursi:</label>
+                <input type="text" id="seat-number" readonly>
+            </div>
 
-        <div class="details">
-            <label for="movie-title">Nama Film:</label>
-            <input type="text" id="movie-title" readonly>
         </div>
-
-        <div class="details">
-            <label for="movie-date">Jadwal Film:</label>
-            <input type="datetime-local" id="movie-date" readonly>
-        </div>
-
-        <div class="details">
-            <label for="Teater">Teater:</label>
-            <input type="text" id="Teater" readonly>
-        </div>
-
-        <div class="details">
-            <label for="location">Lokasi:</label>
-            <input type="text" id="location" readonly>
-        </div>
-
-        <div class="details">
-            <label for="number-of-seat">Jumlah Kursi:</label>
-            <input type="number" id="number-of-seat" readonly>
-        </div>
-
-        <div class="details">
-            <label for="seat-number">Nomor Kursi:</label>
-            <input type="text" id="seat-number" readonly>
-        </div>
+        <button id="print-pdf" style="margin-top: 20px; padding: 10px 20px; font-size: 1.2em; cursor: pointer;">Download PDF</button>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
     <script>
         // Ambil booking_id dari URL query parameter
@@ -134,6 +141,19 @@
                     alert('Gagal mengambil data invoice');
                 });
         }
+
+        // Unduh PDF
+        document.getElementById('print-pdf').addEventListener('click', () => {
+            const invoiceElement = document.getElementById('pdflayout');
+            const options = {
+                // margin: 0.1,
+                filename: `invoice_Booking_${bookingId}.pdf`,
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2 },
+                jsPDF: { unit: 'in', format: 'A3', orientation: 'portrait' }
+            };
+            html2pdf().set(options).from(invoiceElement).save();
+        })
     </script>
 </body>
 </html>

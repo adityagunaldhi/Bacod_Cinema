@@ -8,7 +8,7 @@ const verifyToken = (req, res, next) => {
     }
 
     const token = authHeader.split(' ')[1];
-    const secretKey = process.env.JWT_SECRET || 'your-secret-key';
+    const secretKey = 'your-secret-key';
 
     jwt.verify(token, secretKey, (err, decoded) => {
         if (err) {
