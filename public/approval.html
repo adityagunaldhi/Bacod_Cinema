@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,11 +10,13 @@
         body {
             background-color: #f8f8fa;
         }
+
         .table-responsive {
             overflow-x: auto;
         }
     </style>
 </head>
+
 <body>
     <header class="text-white py-3" style="background-color: #4A148C;">
         <div class="container text-center">
@@ -79,18 +82,18 @@
     </footer>
 
     <script>
-       async function loadPayments() {
-    try {
-        const response = await fetch('http://localhost:5000/api/payments');
-        const data = await response.json();
-        if (data.success) {
-            const tbody = document.querySelector('table tbody');
-            tbody.innerHTML = ''; // Kosongkan tabel sebelum menambahkan data baru
-            data.payments.forEach((payment, index) => {
-                const row = `
+        async function loadPayments() {
+            try {
+                const response = await fetch('http://localhost:5000/api/payments');
+                const data = await response.json();
+                if (data.success) {
+                    const tbody = document.querySelector('table tbody');
+                    tbody.innerHTML = ''; // Kosongkan tabel sebelum menambahkan data baru
+                    data.payments.forEach((payment, index) => {
+                        const row = `
                     <tr>
                         <td>${index + 1}</td>
-                        <td>${payment.name|| '-'}</td>
+                        <td>${payment.name || '-'}</td>
                         <td>${payment.email || '-'}</td>
                         <td>${payment.phone || '-'}</td>
                         <td>${new Date(payment.payment_date).toLocaleDateString()}</td>
@@ -108,74 +111,74 @@
                         </td>
                     </tr>
                 `;
-                tbody.innerHTML += row;
-            });
-            console.log(data);
-            addActionListeners();
-        } else {
-            alert(data.message);
+                        tbody.innerHTML += row;
+                    });
+                    console.log(data);
+                    addActionListeners();
+                } else {
+                    alert(data.message);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Gagal memuat data pembayaran.');
+            }
         }
-    } catch (error) {
-        console.error('Error:', error);
-        alert('Gagal memuat data pembayaran.');
-    }
-}
 
-function addActionListeners() {
-    const approveButtons = document.querySelectorAll('.approve-btn');
-    const rejectButtons = document.querySelectorAll('.reject-btn');
+        function addActionListeners() {
+            const approveButtons = document.querySelectorAll('.approve-btn');
+            const rejectButtons = document.querySelectorAll('.reject-btn');
 
-    approveButtons.forEach(button => {
-        button.addEventListener('click', async (event) => {
-            const paymentId = event.target.getAttribute('data-id');
-            if (confirm('Yakin ingin menyetujui?')) {
-                try {
-                    const response = await fetch(`http://localhost:5000/api/payments/${paymentId}`, {
-                        method: 'PATCH',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ payment_status: 'Completed' })
-                    });
-                    const result = await response.json();
-                    if (result.success) {
-                        alert('Pembayaran disetujui.');
-                        loadPayments(); // Reload data
-                    } else {
-                        alert(result.message);
+            approveButtons.forEach(button => {
+                button.addEventListener('click', async (event) => {
+                    const paymentId = event.target.getAttribute('data-id');
+                    if (confirm('Yakin ingin menyetujui?')) {
+                        try {
+                            const response = await fetch(`http://localhost:5000/api/payments/${paymentId}`, {
+                                method: 'PATCH',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({ payment_status: 'Completed' })
+                            });
+                            const result = await response.json();
+                            if (result.success) {
+                                alert('Pembayaran disetujui.');
+                                loadPayments(); // Reload data
+                            } else {
+                                alert(result.message);
+                            }
+                        } catch (error) {
+                            console.error('Error:', error);
+                        }
                     }
-                } catch (error) {
-                    console.error('Error:', error);
-                }
-            }
-        });
-    });
+                });
+            });
 
-    rejectButtons.forEach(button => {
-        button.addEventListener('click', async (event) => {
-            const paymentId = event.target.getAttribute('data-id');
-            if (confirm('Yakin ingin menolak?')) {
-                try {
-                    const response = await fetch(`http://localhost:5000/api/payments/${paymentId}`, {
-                        method: 'PATCH',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ payment_status: 'Rejected' })
-                    });
-                    const result = await response.json();
-                    if (result.success) {
-                        alert('Pembayaran ditolak.');
-                        loadPayments(); // Reload data
-                    } else {
-                        alert(result.message);
+            rejectButtons.forEach(button => {
+                button.addEventListener('click', async (event) => {
+                    const paymentId = event.target.getAttribute('data-id');
+                    if (confirm('Yakin ingin menolak?')) {
+                        try {
+                            const response = await fetch(`http://localhost:5000/api/payments/${paymentId}`, {
+                                method: 'PATCH',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({ payment_status: 'Rejected' })
+                            });
+                            const result = await response.json();
+                            if (result.success) {
+                                alert('Pembayaran ditolak.');
+                                loadPayments(); // Reload data
+                            } else {
+                                alert(result.message);
+                            }
+                        } catch (error) {
+                            console.error('Error:', error);
+                        }
                     }
-                } catch (error) {
-                    console.error('Error:', error);
-                }
-            }
-        });
-    });
-}
-
-loadPayments();
+                });
+            });
+        }
+        loadPayments();
 
     </script>
 </body>
+
 </html>

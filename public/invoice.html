@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -18,6 +19,7 @@
             background-position: center;
             background-repeat: no-repeat;
         }
+
         .container {
             width: 800px;
             margin: 0 auto;
@@ -26,19 +28,24 @@
             padding: 20px;
             border-radius: 10px;
         }
-        h1, h2 {
+
+        h1,
+        h2 {
             font-size: 2em;
             font-weight: bold;
         }
+
         .details {
             margin-top: 30px;
             display: flex;
             justify-content: space-between;
             font-size: 1.2em;
         }
+
         .details label {
             width: 150px;
         }
+
         .details input {
             width: 200px;
             padding: 8px;
@@ -49,6 +56,7 @@
             background-color: #333;
             cursor: not-allowed;
         }
+
         .total {
             margin-top: 30px;
             font-size: 1.5em;
@@ -63,97 +71,106 @@
         }
     </style>
 </head>
+
 <body>
+<<<<<<< HEAD
     
 <div class="container">
 
 <div id="pdflayout" class="container">
     
    <a class="btn btn-outline-light" href="index.html" role="button">Home</a>
+=======
+    <div class="container">
+        <div id="pdflayout" class="container">
+
+>>>>>>> d0d6d7fc9a1bd3bc33fc005dc6a3b26190bd94d0
             <img src="Logo BOBA cinema.png" alt="Logo BOBA" width="200">
             <h1>BOBA CINEMA</h1>
             <h2>YOUR TICKET</h2>
-        
+
             <div class="details">
                 <label for="date">Tanggal Transaksi:</label>
                 <input type="datetime-local" id="date" readonly>
             </div>
-        
+
             <div class="details">
                 <label for="movie-title">Nama Film:</label>
                 <input type="text" id="movie-title" readonly>
             </div>
-        
+
             <div class="details">
                 <label for="movie-date">Jadwal Film:</label>
                 <input type="datetime-local" id="movie-date" readonly>
             </div>
-        
+
             <div class="details">
                 <label for="Teater">Teater:</label>
                 <input type="text" id="Teater" readonly>
             </div>
-        
+
             <div class="details">
                 <label for="location">Lokasi:</label>
                 <input type="text" id="location" readonly>
             </div>
-        
+
             <div class="details">
                 <label for="number-of-seat">Jumlah Kursi:</label>
                 <input type="number" id="number-of-seat" readonly>
             </div>
-        
+
             <div class="details">
                 <label for="seat-number">Nomor Kursi:</label>
                 <input type="text" id="seat-number" readonly>
             </div>
 
         </div>
-        <button id="print-pdf" style="margin-top: 20px; padding: 10px 20px; font-size: 1.2em; cursor: pointer;">Download PDF</button>
+        <button id="print-pdf" style="margin-top: 20px; padding: 10px 20px; font-size: 1.2em; cursor: pointer;">Download
+            PDF</button>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
-    <script>
-        // Ambil booking_id dari URL query parameter
-        const urlParams = new URLSearchParams(window.location.search);
-        const bookingId = urlParams.get('booking_id');
+        <script>
+            // Ambil booking_id dari URL query parameter
+            const urlParams = new URLSearchParams(window.location.search);
+            const bookingId = urlParams.get('booking_id');
 
-        // Fetch data invoice dari backend berdasarkan booking_id
-        if (bookingId) {
-            fetch(`http://localhost:5000/api/invoice/${bookingId}`)
-                .then(response => response.json())
-                .then(data => {
-                    if (data) {
-                        // Isi form dengan data yang didapat
-                        document.getElementById('date').value = new Date(data.booking_date).toISOString().slice(0, 16);
-                        document.getElementById('movie-title').value = data.movie_title;
-                        document.getElementById('movie-date').value = new Date(data.movie_date).toISOString().slice(0, 16);
-                        document.getElementById('Teater').value = data.screen_name;
-                        document.getElementById('location').value = data.cinema_name;
-                        document.getElementById('number-of-seat').value = (data.seat_number).split(',').length; // Jumlah kursi
-                        document.getElementById('seat-number').value = data.seat_number;
-                    } else {
-                        alert('Data invoice tidak ditemukan');
-                    }
-                })
-                .catch(error => {
-                    console.error('Error fetching data:', error);
-                    alert('Gagal mengambil data invoice');
-                });
-        }
+            // Fetch data invoice dari backend berdasarkan booking_id
+            if (bookingId) {
+                fetch(`http://localhost:5000/api/invoice/${bookingId}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data) {
+                            // Isi form dengan data yang didapat
+                            document.getElementById('date').value = new Date(data.booking_date).toISOString().slice(0, 16);
+                            document.getElementById('movie-title').value = data.movie_title;
+                            document.getElementById('movie-date').value = new Date(data.movie_date).toISOString().slice(0, 16);
+                            document.getElementById('Teater').value = data.screen_name;
+                            document.getElementById('location').value = data.cinema_name;
+                            document.getElementById('number-of-seat').value = (data.seat_number).split(',').length; // Jumlah kursi
+                            document.getElementById('seat-number').value = data.seat_number;
+                        } else {
+                            alert('Data invoice tidak ditemukan');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error fetching data:', error);
+                        alert('Gagal mengambil data invoice');
+                    });
+            }
 
-        // Unduh PDF
-        document.getElementById('print-pdf').addEventListener('click', () => {
-            const invoiceElement = document.getElementById('pdflayout');
-            const options = {
-                // margin: 0.1,
-                filename: `invoice_Booking_${bookingId}.pdf`,
-                image: { type: 'jpeg', quality: 0.98 },
-                html2canvas: { scale: 2 },
-                jsPDF: { unit: 'in', format: 'A3', orientation: 'portrait' }
-            };
-            html2pdf().set(options).from(invoiceElement).save();
-        })
-    </script>
+            // Unduh PDF
+            document.getElementById('print-pdf').addEventListener('click', () => {
+                const invoiceElement = document.getElementById('pdflayout');
+                const options = {
+                    // margin: 0.1,
+                    filename: `invoice_Booking_${bookingId}.pdf`,
+                    image: { type: 'jpeg', quality: 0.98 },
+                    html2canvas: { scale: 2 },
+                    jsPDF: { unit: 'in', format: 'A3', orientation: 'portrait' }
+                };
+                html2pdf().set(options).from(invoiceElement).save();
+            })
+        </script>
 </body>
+
 </html>

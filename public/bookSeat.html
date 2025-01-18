@@ -5,7 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Booked Seat</title>
-    <link rel="icon" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTMdOPkIQZ0rrJYOExiYqfN68ErDUSrCnPStw&s" type="image/x-icon">
+    <link rel="icon" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTMdOPkIQZ0rrJYOExiYqfN68ErDUSrCnPStw&s"
+        type="image/x-icon">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="bookSeat.css">
@@ -15,8 +16,8 @@
     <!-- Header -->
     <header class="bg text-white py-3">
         <div class="container text-center">
-          <h1>BOBA Cinema</h1>
-          <p>Tempat terbaik untuk menonton film favorit Anda</p>
+            <h1>BOBA Cinema</h1>
+            <p>Tempat terbaik untuk menonton film favorit Anda</p>
         </div>
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top"> 
             <div class="container">
@@ -45,8 +46,8 @@
         <div class="bg-white text-dark">
             <h2 class="text-center mt-4 py-3">BOOK YOUR SEAT</h2>
         </div>
-    </header> 
-    
+    </header>
+
     <div class="book-tickets">
         <div class="tickets">
             <h2 class="text-center" id="movie_title">Judul Film</h2>
@@ -87,7 +88,11 @@
                     </table>
                 </div>
                 <div class="d-flex justify-content-center mt-4">
+<<<<<<< HEAD
                     <button id="submitButton" class="btn btn-primary" disabled onclick="window.location.href='transaction.html'">Book Now</button>
+=======
+                    <button id="submitButton" class="btn btn-primary" disabled>Book Now</button>
+>>>>>>> d0d6d7fc9a1bd3bc33fc005dc6a3b26190bd94d0
                 </div>
             </div>
         </div>
@@ -96,34 +101,86 @@
     <!-- Bootstrap JS dan Popper -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
-    
+
     <!-- Footer -->
     <footer class="bg text-white text-center py-3">
         <p>&copy; 2025 BOBA Cinema. All Rights Reserved.</p>
     </footer>
 
 
-<script>
-    function validateInput() {
-      const name = document.getElementById('name');
-      const email = document.getElementById('email');
-      const phone = document.getElementById('phone');      
-      const button = document.getElementById('submitButton');
+    <script>
+        function validateInput() {
+            const name = document.getElementById('name');
+            const email = document.getElementById('email');
+            const phone = document.getElementById('phone');
+            const button = document.getElementById('submitButton');
 
-      // Cek apakah semua input terisi
-      if (name.value.trim() !== "" && email.value.trim() !== "" && phone.value.trim() !== "") {
-        button.disabled = false; // Aktifkan tombol
-      } else {
-        button.disabled = true; // Nonaktifkan tombol
-      }
-    }
+            // Cek apakah semua input terisi
+            if (name.value.trim() !== "" && email.value.trim() !== "" && phone.value.trim() !== "") {
+                button.disabled = false; // Aktifkan tombol
+            } else {
+                button.disabled = true; // Nonaktifkan tombol
+            }
+        }
 
-    async function loadShowtimeBook() {
+        async function getSeats() {
             const urlParams = new URLSearchParams(window.location.search);
             const showtimeId = urlParams.get('showtime_id');
             console.log(showtimeId);
-            
-            
+
+
+            if (!showtimeId) {
+                alert('Showtime ID is missing!');
+                return;
+            }
+
+            try {
+                const seatsContainer = document.querySelector('.tickets-seats');
+                const selectedSeatsDisplay = document.getElementById('selected-seats');
+                const totalSeatsDisplay = document.getElementById('total-seats');
+
+                const response = await fetch(`http://localhost:5000/api/seats/screen/${showtimeId}`);
+
+                if (!response.ok) {
+                    throw new Error(`Failed to load showtime data: ${response.statusText}`);
+                }
+
+                const data = await response.json();
+                console.log(data);
+
+                seatsContainer.innerHTML = '';  // Kosongkan kontainer kursi sebelum diisi ulang
+                data.data.forEach(row => {
+                    const seatLabel = `${row.seat_number}`;
+                    const seat = document.createElement('div');
+                    seat.classList.add('seat');
+                    seat.setAttribute('data-seat', seatLabel);
+                    seat.textContent = seatLabel;
+
+                    // Tandai kursi yang sudah dipesan
+                    if (row.status == "booked") {
+                        seat.classList.add('occupied');
+                    }
+
+                    seatsContainer.appendChild(seat);
+                });
+
+                seatsContainer.addEventListener('click', (e) => {
+                    if (e.target.classList.contains('seat') && !e.target.classList.contains('occupied')) {
+                        e.target.classList.toggle('selected');
+                        updateSelectedSeats();
+                    }
+                });
+            } catch (error) {
+                console.error("Error loading showtime details:", error);
+                alert("An error occurred while loading the showtime details. Please try again later.");
+            }
+        }
+
+        async function loadShowtimeBook() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const showtimeId = urlParams.get('showtime_id');
+            console.log(showtimeId);
+
             if (!showtimeId) {
                 alert('Showtime ID is missing!');
                 return;
@@ -154,9 +211,11 @@
                 console.error("Error loading showtime details:", error);
                 alert("An error occurred while loading the showtime details. Please try again later.");
             }
-    }
-    loadShowtimeBook();
+        }
+        loadShowtimeBook();
+        getSeats();
 
+<<<<<<< HEAD
     // JavaScript For Seat
     const seatsContainer = document.querySelector('.tickets-seats');
     const selectedSeatsDisplay = document.getElementById('selected-seats');
@@ -169,110 +228,86 @@
 
     const bookedSeats = [' ', ' ', ' ']; // Kursi yang sudah dipesan
 
+=======
+        // JavaScript For Seat
+        // const seatsContainer = document.querySelector('.tickets-seats');
+        const selectedSeatsDisplay = document.getElementById('selected-seats');
+        const totalSeatsDisplay = document.getElementById('total-seats');
+        const priceDisplay = document.getElementById('price');
+        const totalPriceDisplay = document.getElementById('total-price');
 
-    // Fungsi untuk membuat kursi secara dinamis
-    // function generateSeats() {
-        seatsContainer.innerHTML = '';  // Kosongkan kontainer kursi sebelum diisi ulang
-        rows.forEach(row => {
-            for (let col = 1; col <= cols; col++) {
-                const seatLabel = `${row}${col}`;
-                const seat = document.createElement('div');
-                seat.classList.add('seat');
-                seat.setAttribute('data-seat', seatLabel);
-                seat.textContent = seatLabel;
+        // Fungsi untuk memperbarui kursi yang dipilih dan total harga
+        function updateSelectedSeats() {
+            const selectedSeats = document.querySelectorAll('.seat.selected');
+            const selectedLabels = [...selectedSeats].map(seat => seat.getAttribute('data-seat'));
+>>>>>>> d0d6d7fc9a1bd3bc33fc005dc6a3b26190bd94d0
 
-                // Tandai kursi yang sudah dipesan
-                if (bookedSeats.includes(seatLabel)) {
-                    seat.classList.add('occupied');
-                }
+            // Tampilkan kursi yang dipilih
+            selectedSeatsDisplay.textContent = selectedLabels.length ? `${selectedLabels.join(', ')}` : '-';
 
-                seatsContainer.appendChild(seat);
+            // Tampilkan total kursi yang dipilih
+            totalSeatsDisplay.textContent = `${selectedSeats.length}`;
+
+            // Hitung dan tampilkan total harga
+            totalPriceDisplay.textContent = `Rp. ${(selectedSeats.length * ticketPrice).toLocaleString('id-ID')}`;
+        }
+
+        async function bookSeats() {
+            const selectedSeats = document.querySelectorAll('.seat.selected');
+            const selectedLabels = [...selectedSeats].map(seat => seat.getAttribute('data-seat'));
+
+            if (!selectedLabels.length) {
+                alert('Please select at least one seat.');
+                return;
             }
-        });
-    // }
 
-    // Panggil fungsi untuk mengambil data kursi dari database saat halaman dimuat
-    // fetchBookedSeats();
+            const urlParams = new URLSearchParams(window.location.search);
+            const showtimeId = urlParams.get('showtime_id');
 
-    // Event Listener untuk memilih kursi
-    seatsContainer.addEventListener('click', (e) => {
-        if (e.target.classList.contains('seat') && !e.target.classList.contains('occupied')) {
-            e.target.classList.toggle('selected');
-            updateSelectedSeats();
-        }
-    });
+            if (!showtimeId) {
+                alert('Showtime ID is missing!');
+                return;
+            }
 
-    // Fungsi untuk memperbarui kursi yang dipilih dan total harga
-    function updateSelectedSeats() {
-        const selectedSeats = document.querySelectorAll('.seat.selected');
-        const selectedLabels = [...selectedSeats].map(seat => seat.getAttribute('data-seat'));
+            const totalAmount = parseFloat(
+                totalPriceDisplay.textContent.replace(/[^\d]/g, '') // Hapus format Rupiah
+            );
 
-        // Tampilkan kursi yang dipilih
-        selectedSeatsDisplay.textContent = selectedLabels.length ? `${selectedLabels.join(', ')}` : '-';
+            if (!totalAmount || isNaN(totalAmount)) {
+                alert('Total amount is invalid!');
+                return;
+            }
 
-        // Tampilkan total kursi yang dipilih
-        totalSeatsDisplay.textContent = `${selectedSeats.length}`;
+            const name = document.getElementById('name').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const phone = document.getElementById('phone').value.trim();
 
-        // Hitung dan tampilkan total harga
-        totalPriceDisplay.textContent = `Rp. ${(selectedSeats.length * ticketPrice).toLocaleString('id-ID')}`;
-    }
+            if (!name || !email || !phone) {
+                alert('Please complete all fields (Name, Email, Phone).');
+                return;
+            }
 
-    async function bookSeats() {
-        const selectedSeats = document.querySelectorAll('.seat.selected');
-        const selectedLabels = [...selectedSeats].map(seat => seat.getAttribute('data-seat'));
+            const bookingData = {
+                showtime_id: showtimeId,
+                seat_numbers: selectedLabels.join(','), // Gabungkan kursi menjadi string
+                total_amount: totalAmount,
+                name,
+                email,
+                phone,
+            };
 
-        if (!selectedLabels.length) {
-            alert('Please select at least one seat.');
-            return;
-        }
+            console.log('Booking Data:', bookingData); // Debugging log
 
-        const urlParams = new URLSearchParams(window.location.search);
-        const showtimeId = urlParams.get('showtime_id');
+            try {
+                const response = await fetch('http://localhost:5000/api/bookings/book-seat', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(bookingData),
+                });
 
-        if (!showtimeId) {
-            alert('Showtime ID is missing!');
-            return;
-        }
-
-        const totalAmount = parseFloat(
-            totalPriceDisplay.textContent.replace(/[^\d]/g, '') // Hapus format Rupiah
-        );
-
-        if (!totalAmount || isNaN(totalAmount)) {
-            alert('Total amount is invalid!');
-            return;
-        }
-
-        const name = document.getElementById('name').value.trim();
-        const email = document.getElementById('email').value.trim();
-        const phone = document.getElementById('phone').value.trim();
-
-        if (!name || !email || !phone){
-            alert('Please complete all fields (Name, Email, Phone).');
-            return;
-        }
-
-        const bookingData = {
-            showtime_id: showtimeId,
-            seat_numbers: selectedLabels.join(','), // Gabungkan kursi menjadi string
-            total_amount: totalAmount,
-            name,
-            email,
-            phone,
-        };
-
-        console.log('Booking Data:', bookingData); // Debugging log
-
-        try {
-            const response = await fetch('http://localhost:5000/api/bookings/book-seat', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(bookingData),
-            });
-
-            const result = await response.json();
+                const result = await response.json();
                 if (result.success) {
                     alert('Booking successful!');
                     window.location.href = `http://localhost:5000/transaction.html?booking_id=${result.booking_id}`; // Redirect ke halaman sukses
@@ -281,14 +316,15 @@
                 } else {
                     alert(`Booking failed: Some Seat already Booked`);
                 }
-        } catch (error) {
-        console.error('Error booking seats:', error);
-        alert('An error occurred while booking. Please try again later.');
+            } catch (error) {
+                console.error('Error booking seats:', error);
+                alert('An error occurred while booking. Please try again later.');
+            }
         }
-    }
 
-    // Tambahkan event listener untuk tombol "Book Now"
-    document.querySelector('button.btn-primary').addEventListener('click', bookSeats);
-</script>
+        // Tambahkan event listener untuk tombol "Book Now"
+        document.querySelector('button.btn-primary').addEventListener('click', bookSeats);
+    </script>
 </body>
+
 </html>

@@ -1,59 +1,63 @@
-body{
-    margin:0;
-    padding:0;
+body {
+    margin: 0;
+    padding: 0;
     font-family: Arial, Helvetica, sans-serif;
 }
 
-#header{
+#header {
     background-color: white;
     height: 50px;
     padding: 5px;
 }
 
-#menu{
+#menu {
     background-color: purple;
-    height:30px;
-    padding:5px;      
+    height: 30px;
+    padding: 5px;
 }
 
-#sidebar{
+#sidebar {
     width: 30%;
     height: 70%;
     padding: 5px;
     float: left;
-    background-color: #d500f9; 
+    background-color: #d500f9;
     text-align: center;
-    color:white; 
-      
+    color: white;
+
 }
 
-#konten{
+#konten {
     float: left;
-    padding: 5px;    
+    padding: 5px;
 }
 
-#cinema-location{
-    height:30px;
-    padding:5px;
+#cinema-location {
+    height: 30px;
+    padding: 5px;
     background-color: #d500f9;
     clear: both;
 }
 
-#booked-seat{
-    height:30px;
-    padding:5px;
+#booked-seat {
+    height: 30px;
+    padding: 5px;
     background-color: #d500f9;
     clear: both;
 }
 
 #card-image-top {
-    width: 100%; /* Pastikan gambar memenuhi lebar kartu */
-    height: 500px; /* Tinggi gambar tetap */
-    object-fit: cover; /* Gambar akan dipotong agar sesuai dengan dimensi */
-    border-radius: 5px; /* Opsional: Untuk memberikan efek sudut melengkung */
+    width: 100%;
+    /* Pastikan gambar memenuhi lebar kartu */
+    height: 500px;
+    /* Tinggi gambar tetap */
+    object-fit: cover;
+    /* Gambar akan dipotong agar sesuai dengan dimensi */
+    border-radius: 5px;
+    /* Opsional: Untuk memberikan efek sudut melengkung */
 }
 
-.bg{
+.bg {
     background-color: #4A148C;
 }
 
@@ -64,13 +68,17 @@ body {
 }
 
 .main-content {
-    background-image: url(Background\ invoice.jpeg); /* Ganti dengan URL gambar Anda https://previews.123rf.com/images/robertsrob/robertsrob1611/robertsrob161100034/65198250-old-paper-with-film-strip-background.jpg'*/
+    background-image: url(Background\ invoice.jpeg);
+    /* Ganti dengan URL gambar Anda https://previews.123rf.com/images/robertsrob/robertsrob1611/robertsrob161100034/65198250-old-paper-with-film-strip-background.jpg'*/
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    color: white; /* Agar teks terlihat jelas di atas gambar */
-    padding-top: 20px; /* Opsional: Tambahkan jarak di atas */
-    padding-bottom: 20px; /* Opsional: Tambahkan jarak di bawah */
+    color: white;
+    /* Agar teks terlihat jelas di atas gambar */
+    padding-top: 20px;
+    /* Opsional: Tambahkan jarak di atas */
+    padding-bottom: 20px;
+    /* Opsional: Tambahkan jarak di bawah */
     position: relative;
     z-index: 1;
 }
@@ -82,8 +90,10 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* Overlay gelap */
-    z-index: -1; /* Letakkan overlay di belakang konten */
+    background-color: rgba(0, 0, 0, 0.5);
+    /* Overlay gelap */
+    z-index: -1;
+    /* Letakkan overlay di belakang konten */
 }
 
 footer {

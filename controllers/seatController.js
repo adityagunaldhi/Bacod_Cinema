@@ -89,6 +89,7 @@ const getSeatsByShowtime = async (req, res) => {
     const seats = await seatModel.getSeatsByShowtime(showtime_id);
     res.status(200).json({ success: true, data: seats });
   } catch (error) {
+    ew
     console.error('Error in getSeatsByShowtime:', error);
     res.status(500).json({ success: false, message: 'Failed to fetch seats by showtime', error: error.message });
   }

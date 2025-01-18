@@ -1,30 +1,33 @@
-.bg{
+.bg {
     background-color: #4A148C;
 }
 
 .main {
-    background-image: url(Background\ invoice.jpeg); /* Ganti dengan URL gambar Anda */
+    background-image: url(Background\ invoice.jpeg);
+    /* Ganti dengan URL gambar Anda */
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    color: rgb(10, 10, 10); /* Agar teks terlihat jelas di atas gambar */
-    padding-bottom: 20px; /* Opsional: Tambahkan jarak di bawah */
+    color: rgb(10, 10, 10);
+    /* Agar teks terlihat jelas di atas gambar */
+    padding-bottom: 20px;
+    /* Opsional: Tambahkan jarak di bawah */
     position: relative;
     z-index: 1;
 }
 
 .book-tickets {
     flex-direction: row;
-    display: flex; 
-    align-items: stretch;  
+    display: flex;
+    align-items: stretch;
     background: url(Background\ invoice.jpeg) center/cover;
 }
 
 .tickets {
-    justify-content: center;    
-    align-items: center;        
-    flex-wrap: wrap;            
-    padding: 20px; 
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    padding: 20px;
     height: 100vh;
     flex-grow: 8;
     color: white;
@@ -74,12 +77,12 @@
 
 .book {
     background-color: #ffffffc5;
-    justify-content: center;    
-    align-items: center;        
-    flex-wrap: wrap;             
-    padding: 20px; 
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    padding: 20px;
     height: max-content;
-    flex-grow: 3; 
+    flex-grow: 3;
 }
 
 .book .booked {
@@ -90,39 +93,46 @@
     bottom: 0;
     left: 0;
     width: 100%;
-  }
-  .booked .table-transactions {
+}
+
+.booked .table-transactions {
     margin-top: 100px;
     width: 100%;
     margin-bottom: 20px;
-  }
+}
 
-  input {
+input {
     padding: 10px;
     font-size: 16px;
     margin-top: 10px;
     width: 100%;
-    max-width: 1000px; /* Batas maksimum lebar input */
-    box-sizing: border-box; /* Menghitung padding dan border dalam lebar input */
-  }
-  
-  .table-transactions tr td {
+    max-width: 1000px;
+    /* Batas maksimum lebar input */
+    box-sizing: border-box;
+    /* Menghitung padding dan border dalam lebar input */
+}
+
+.table-transactions tr td {
     padding-top: 2px;
     padding-bottom: 2px;
     text-align: justify;
-  }
-  
-  .table-transactions tr td:last-child {
-    text-align: right;  
-  }
-  
-  .table-transactions tr td.total-price {
-    padding-top: 10px;
-  }
+}
 
-  .card-img-top {
-    width: 100%; /* Pastikan gambar memenuhi lebar kartu */
-    height: 350px; /* Tinggi gambar tetap */
-    object-fit: fill; /* Gambar akan dipotong agar sesuai dengan dimensi */
-    border-radius: 5px; /* Opsional: Untuk memberikan efek sudut melengkung */
+.table-transactions tr td:last-child {
+    text-align: right;
+}
+
+.table-transactions tr td.total-price {
+    padding-top: 10px;
+}
+
+.card-img-top {
+    width: 100%;
+    /* Pastikan gambar memenuhi lebar kartu */
+    height: 350px;
+    /* Tinggi gambar tetap */
+    object-fit: fill;
+    /* Gambar akan dipotong agar sesuai dengan dimensi */
+    border-radius: 5px;
+    /* Opsional: Untuk memberikan efek sudut melengkung */
 }

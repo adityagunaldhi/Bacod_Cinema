@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,6 +12,7 @@
         }
     </style>
 </head>
+
 <body>
     <header class="text-white py-3" style="background-color: #4A148C;">
         <div class="container text-center">
@@ -47,7 +49,7 @@
             <h2 class="card-header">Transaksi Booking Kursi Bioskop</h2>
             <div class="card-body">
                 <img class="card-img-top mb-3" src="" alt="Poster Film" style="max-width: 100%; height: auto;">
-                
+
                 <p class="card-text">Nama Pemesan:</p>
                 <p class="card-text">Email:</p>
                 <p class="card-text">Phone:</p>
@@ -157,8 +159,12 @@
                 const result = await response.json();
                 if (result.success) {
                     alert('Pembayaran berhasil diproses! Mohon menunggu konfirmasi admin.');
-                    localStorage.setItem('bookingId', result.booking_id);
-                    window.location.href = 'loading.html';
+                    console.log('Booking ID:', result.booking_id);
+
+                    if (result.booking_id){
+                        localStorage.setItem('bookingId', result.booking_id);
+                        window.location.href = 'loading.html';
+                    }
                 } else {
                     alert(result.message);
                 }
@@ -171,4 +177,5 @@
         loadTransactionDetails();
     </script>
 </body>
+
 </html>
