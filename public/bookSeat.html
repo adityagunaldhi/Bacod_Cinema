@@ -19,6 +19,27 @@
             <h1>BOBA Cinema</h1>
             <p>Tempat terbaik untuk menonton film favorit Anda</p>
         </div>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top"> 
+            <div class="container">
+              <a class="navbar-brand" href="#">
+                    <img src="Logo BOBA cinema.png" width= 80 alt="BOBA Cinema">
+              </a>
+              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+              <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="index.html">Home</a>
+                    </li>
+                </ul>
+                <div class="d-flex">
+                    <button type="button" class="btn btn-outline-light m-3" data-bs-toggle="modal" data-bs-target="#loginModal">Login</button>
+                </div>
+                
+              </div>
+         </div>
+          </nav>
         <div class="bg-white text-dark">
             <h2 class="text-center mt-4 py-3">BOOK YOUR SEAT</h2>
         </div>
@@ -186,6 +207,18 @@
         }
         loadShowtimeBook();
         getSeats();
+
+    //JavaScript For Seat
+    // const seatsContainer = document.querySelector('.tickets-seats');
+    // const selectedSeatsDisplay = document.getElementById('selected-seats');
+    // const totalSeatsDisplay = document.getElementById('total-seats');
+    // const priceDisplay = document.getElementById('price');
+    // const totalPriceDisplay = document.getElementById('total-price');
+
+    // const rows = ['A', 'B', 'C', 'D', 'E'];
+    // const cols = 4;
+
+    // const bookedSeats = [' ', ' ', ' ']; // Kursi yang sudah dipesan
 
         // JavaScript For Seat
         // const seatsContainer = document.querySelector('.tickets-seats');
